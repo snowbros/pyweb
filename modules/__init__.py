@@ -1,1 +1,1 @@
-import test_modules 
+import module_registry
