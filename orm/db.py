@@ -1,12 +1,12 @@
 import psycopg2
-
+from tools.config import config_options
 connection = False
 
 
 def _get_connection():
     global connection
     if not connection or connection.closed:
-        connection = psycopg2.connect("dbname='test' user='batsy'")
+        connection = psycopg2.connect("dbname='%s' user='batsy'"%(config_options.db_name))
     return connection
 
 def _get_cursor():
