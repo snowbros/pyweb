@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="static/css/bootstrap.css">
+    <link rel="stylesheet" href="static/css/custom.css">
+    <script src="static/libs/jquery/jquery.js"></script>
+    <script src="static/js/bootstrap.js"></script>
+</head>
+<body>
+    <div id="wrapwrap">
+        <header>
+          {% block header %}
+          {% endblock %}
+        </header>
+        <main>
+          {% block main %}
+          {% endblock %}
+        </main>
+        <footer>
+          {% block footer %}
+          {% endblock %}
+        </footer>
+    </div>
+</body>
+</html>
