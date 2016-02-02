@@ -19,14 +19,7 @@ html, body, #wrapwrap {
 #wrapwrap > header > .navbar{
   margin-bottom: 0px;
 }
-#wrapwrap > main  .project_login_container{
-  width: 400px;
-  margin: 40px auto;
-  background: #fff;
-  box-shadow: 2px 2px 2px 0px rgba(5,5,5,0.06);
-  border: 1px solid #DFDDDD;
-  padding: 15px;
-}
+
 .mt0{
     margin-top: 0px;
 }
@@ -43,4 +36,18 @@ html, body, #wrapwrap {
 main{
     background: #E5E5E5;
     height: 100%;
+}
+
+#wrapwrap > main  .project_login_container{
+  width: 400px;
+  margin: 40px auto;
+  background: #fff;
+  box-shadow: 2px 2px 2px 0px rgba(5,5,5,0.06);
+  border: 1px solid #DFDDDD;
+  border-top: 4px solid #008CBA;
+  padding: 15px;
+}
+#wrapwrap > main.login_back{
+  background-image: url('/static/img/login_back.jpg');
+      background-size: cover;
 }
