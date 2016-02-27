@@ -10,6 +10,9 @@ def get_configs():
     general_group.add_argument('-no-static',
                                action='store_false', default=True, dest='load_static_dir',
                                help="Don't load static folder")
+    general_group.add_argument('--log-level',
+                                action='store', dest='log_level', default="DEBUG",
+                                help='Define log level DEBUG, INFO etc')
 
     #Database related option
     db_options = config_parser.add_argument_group('Database')

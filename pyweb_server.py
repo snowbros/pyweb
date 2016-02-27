@@ -4,6 +4,7 @@ import modules
 #flask server
 from modules.flask_app import web_path
 
-web_path.debug = True
+if config_options.log_level == "DEBUG":
+    web_path.debug = True
 web_path.run()
 
