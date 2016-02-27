@@ -55,4 +55,3 @@ hdlr.setFormatter(formatter_obj)
 
 # add handler to logger
 logger.addHandler(hdlr)
-logger.debug('debug message')

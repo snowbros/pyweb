@@ -1,20 +1,11 @@
-from orm import orm
-
+from orm import orm, fields
 
 class Project(orm.ORM):
     _table_name = "projects"
 
     _fields = {
-            'name': {
-                        'type': 'VARCHAR2',
-                        'not null': True
-                    },
-            'description': {
-                        'type': 'VARCHAR2',
-                    },
+        'name': fields.Text(),
     }
-
-
 
 Project()
 

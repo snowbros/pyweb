@@ -35,6 +35,7 @@ def select_one(query_string, values):
     return cursor.fetchone()
 
 #is table already exist or not 
+#TODO: replace with cr.execute("SELECT relname FROM pg_class WHERE relkind in ('r','v') AND relname=%s", (table_name,))
 def _table_exist(table_name):
     result = select_one("select exists(select relname from pg_class where relname=%(table_name)s)", {"table_name": table_name})
     return result[0]
@@ -42,10 +43,35 @@ def _table_exist(table_name):
 #for creating table
 def _create_table(table_name):
     if not _table_exist(table_name):
-        _execute_query("CREATE TABLE %s (id INT PRIMARY KEY)"%(table_name,))
+        _execute_query('CREATE TABLE "%s" (id SERIAL NOT NULL, PRIMARY KEY(id)) WITH OIDS'%(table_name,))
         _commit()
     return True
 
+#fields realated methods
+def _orm_get_columns_info(model_obj):
+    table_name =  model_obj._table_name
+    fields = model_obj._fields.keys()
+    fields.append('id')
+    result = select_all("""SELECT c.relname,a.attname,a.attlen,a.atttypmod,a.attnotnull,a.atthasdef,t.typname,CASE WHEN a.attlen=-1 THEN a.atttypmod-4 ELSE a.attlen END as size
+        FROM pg_class c,pg_attribute a,pg_type t
+        WHERE c.relname=%s
+        AND a.attname in %s
+        AND c.oid=a.attrelid 
+        AND a.atttypid=t.oid""", (table_name, tuple(fields)))
+    field_info = {}
+    for r in result:
+        field_info[r[1]] = {'table_name': r[0], 'field_name': r[1], 'data_type':r[-2], 'size':r[-1]}
+    return field_info
+
+def _orm_add_column(field_obj, size=False):
+    table_name = field_obj._table_name
+    field_name = field_obj._field_name
+    f_type = field_obj._type
+    if size:
+        _execute_query('ALTER TABLE "%s" ADD COLUMN "%s" %s(%s)'%(table_name, field_name, f_type, field_size))
+    else:
+        _execute_query('ALTER TABLE "%s" ADD COLUMN "%s" %s'%(table_name, field_name, f_type))
+    _commit()
 
 #for inserting data into table
 def _insert_data(table_name, column_name , column_type):

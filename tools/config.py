@@ -19,7 +19,9 @@ def get_configs():
     db_options.add_argument('--db-name',
                             action='store', dest='db_name',
                             help='Database Name')
-
+    db_options.add_argument('--updata-schema',
+                            action='store_true', default=False, dest='update_schama',
+                            help="Update Database Schema (Re-compute-orm)")
     args = config_parser.parse_args()
     return args
 
