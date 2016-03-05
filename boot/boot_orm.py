@@ -7,4 +7,3 @@ new_born = not db._table_exist("system_info")
 if new_born:
     db._create_table("system_info")
     db._commit()
-

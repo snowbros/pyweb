@@ -2,13 +2,14 @@ import logging
 from config import config_options
 
 levels = {
-    "DEBUG":logging.DEBUG,
-    "INFO":logging.INFO,
-    "WARNING":logging.WARNING,
-    "ERROR":logging.ERROR,
+    "DEBUG": logging.DEBUG,
+    "INFO": logging.INFO,
+    "WARNING": logging.WARNING,
+    "ERROR": logging.ERROR,
 }
 
 log_level = levels.get(config_options.log_level, logging.DEBUG)
+
 
 class bcolors:
     HEADER = '\033[95m'
@@ -20,25 +21,26 @@ class bcolors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
+
 def coloredType(logType):
     if logType == 'INFO' or logType == 'LOG' or logType == 'TIP':
-        return bcolors.OKGREEN + bcolors.BOLD + "<<"+logType + ">>"+ bcolors.ENDC
+        return bcolors.OKGREEN + bcolors.BOLD + "<<" + logType + ">>" + bcolors.ENDC
     if logType == 'ERROR':
-        return bcolors.FAIL + bcolors.BOLD + "<<"+logType + ">>"+ bcolors.ENDC
+        return bcolors.FAIL + bcolors.BOLD + "<<" + logType + ">>" + bcolors.ENDC
     if logType == 'WARNING':
-        return bcolors.WARNING + bcolors.BOLD + "<<"+logType + ">>"+ bcolors.ENDC
+        return bcolors.WARNING + bcolors.BOLD + "<<" + logType + ">>" + bcolors.ENDC
     if logType == 'DEBUG':
-        return bcolors.HEADER + bcolors.BOLD + "<<"+logType + ">>"+ bcolors.ENDC
-    return bcolors.OKGREEN + bcolors.BOLD + "<<"+logType + ">>"+ bcolors.ENDC
+        return bcolors.HEADER + bcolors.BOLD + "<<" + logType + ">>" + bcolors.ENDC
+    return bcolors.OKGREEN + bcolors.BOLD + "<<" + logType + ">>" + bcolors.ENDC
 
 # create logger
 logger = logging.getLogger(__name__)
 logger.setLevel(log_level)
 
+
 class LogFormatter(logging.Formatter):
 
     def format(self, record):
-        
         self._fmt = "%(asctime)s "+coloredType(record.levelname)+' %(filename)s (%(lineno)d) %(message)s'
         return logging.Formatter.format(self, record)
 
