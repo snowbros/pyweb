@@ -6,6 +6,11 @@ class Project(orm.ORM):
 
     _fields = {
         'name': fields.Text(),
+        'amount': fields.Integer(),
+        'prices': fields.Float(),
+        'last_date': fields.Date(),
+        'datetime': fields.Date_time(),
+        'booo': fields.Boolean()
     }
 
 Project()

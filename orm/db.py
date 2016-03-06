@@ -1,6 +1,10 @@
 import psycopg2
+import logging
+
 from tools.config import config_options
+
 connection = False
+logger = logging.getLogger(__name__)
 
 
 def _get_connection():
@@ -52,6 +56,7 @@ def _create_table(table_name):
     if not _table_exist(table_name):
         _execute_query('CREATE TABLE "%s" (id SERIAL NOT NULL, PRIMARY KEY(id)) WITH OIDS' % (table_name,))
         _commit()
+        logger.debug("TABLE created: %s" % (table_name))
     return True
 
 
@@ -72,15 +77,17 @@ def _orm_get_columns_info(model_obj):
     return field_info
 
 
-def _orm_add_column(field_obj, size=False):
+def _orm_add_column(field_obj):
     table_name = field_obj._table_name
     field_name = field_obj._field_name
     f_type = field_obj._type
+    size = field_obj._size
     if size:
         _execute_query('ALTER TABLE "%s" ADD COLUMN "%s" %s(%s)' % (table_name, field_name, f_type, size))
     else:
         _execute_query('ALTER TABLE "%s" ADD COLUMN "%s" %s' % (table_name, field_name, f_type))
     _commit()
+    logger.debug("FIELD created: %s(%s)" % (field_name, f_type))
 
 
 # for inserting data into table

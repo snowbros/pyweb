@@ -11,7 +11,7 @@ class BaseField(object):
     _field_name = None
 
     def __init__(self, **args):
-        pass
+        self._size = None
 
     def set(self, cr, obj, id, name, value, user=None, context=None):
         cr.execute('update '+obj._table+' set '+name+'='+self._symbol_set[0]+' where id=%s', (self._symbol_set[1](value), id))
@@ -41,6 +41,42 @@ class Char(BaseField):
 
     def __init__(self, size=256, **args):
         self._size = size
+
+    def _add_column(self):
+        db._orm_add_column(self)
+
+
+class Integer(BaseField):
+
+    _type = "INT"
+
+    def _add_column(self):
+        db._orm_add_column(self)
+
+
+class Float(BaseField):
+    _type = "numeric"
+
+    def _add_column(self):
+        db._orm_add_column(self)
+
+
+class Boolean(BaseField):
+    _type = "bool"
+
+    def _add_column(self):
+        db._orm_add_column(self)
+
+
+class Date(BaseField):
+    _type = "date"
+
+    def _add_column(self):
+        db._orm_add_column(self)
+
+
+class Date_time(BaseField):
+    _type = "timestamp"
 
     def _add_column(self):
         db._orm_add_column(self)
