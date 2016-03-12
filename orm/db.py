@@ -92,7 +92,7 @@ def _orm_add_column(field_obj):
 
 # for inserting data into table
 def _insert_data(table_name, column_name, column_data):
-    query = 'INSERT INTO %s (' + ",".join([name for name in column_name]) + ' ) VALUES %s'
+    query = 'INSERT INTO %s (' + ",".join(column_name) + ' ) VALUES %s'
     print query
     _execute_query(query % (table_name, column_data))
     _commit()
@@ -120,3 +120,26 @@ def _delete_data(table_name, list_id):
     all_id = tuple(list_id)
     _execute_query('DELETE FROM "%s" where id IN %s' % (table_name, all_id))
     _commit()
+
+
+def _get_ids(table_name, where_clause, order, offset, limit):
+    if limit:
+        limit = "LIMIT %s" % (limit)
+    if where_clause:
+        where_clause = "WHERE %s" % (where_clause)
+    vals = select_all("SELECT id FROM %s %s ORDER BY %s OFFSET %s %s" % (table_name, where_clause, order, offset, limit), {})
+    return [i[0] for i in vals]
+
+
+def _get_vals_dict(table_name, where_clause, fields, order, offset, limit):
+    fields.append("id")
+    if limit:
+        limit = "LIMIT %s" % (limit)
+    if where_clause:
+        where_clause = "WHERE %s" % (where_clause)
+    fields_list = ",".join(fields)
+    vals = select_all("SELECT %s FROM %s %s ORDER BY %s OFFSET %s %s" % (fields_list, table_name, where_clause, order, offset, limit), {})
+    result = []
+    for val in vals:
+        result.append(dict(zip(fields, val)))
+    return result

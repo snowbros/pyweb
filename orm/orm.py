@@ -47,9 +47,23 @@ class ORM(object):
     def delete(self, list_id):
         db._delete_data(self._table_name, list_id)
 
-    def search(self, conditions):
+    def generate_where_clause(self, conditions):
         try:
             where_clause = Parser(self, conditions)._to_sql_str()
         except AssertionError as e:
             logger.error(e)
-            where_clause = False
+            return False
+        return where_clause
+
+    def search(self, conditions, order='id', offset=0, limit=""):
+        where_clause = self.generate_where_clause(conditions)
+        return db._get_ids(self._table_name, where_clause, order, offset, limit)
+
+    def search_read(self, conditions, fields=None, order='id', offset=0, limit=""):
+        all_fields = self._field_dict.keys()
+        if not fields:
+            fields = all_fields
+        else:
+            fields = [f for f in fields if f in all_fields]
+        where_clause = self.generate_where_clause(conditions)
+        return db._get_vals_dict(self._table_name, where_clause, fields, order, offset, limit)
