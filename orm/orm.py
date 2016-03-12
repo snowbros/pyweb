@@ -46,3 +46,10 @@ class ORM(object):
 
     def delete(self, list_id):
         db._delete_data(self._table_name, list_id)
+
+    def search(self, conditions):
+        try:
+            where_clause = Parser(self, conditions)._to_sql_str()
+        except AssertionError as e:
+            logger.error(e)
+            where_clause = False
