@@ -91,24 +91,32 @@ def _orm_add_column(field_obj):
 
 
 # for inserting data into table
-def _insert_data(table_name, column_name, column_type):
-    if _table_exist(table_name):
-        column_data = raw_input("enter data")
-
-        try:
-            assert column_type in ["INT", "VARCHAR2", "DATE", "BOOLEAN"]
-            _execute_query("INSERT INTO %s (%s) VALUES (%s);" % (table_name, column_name, column_data))
-            _commit()
-        except AssertionError:
-            print "invalid data type"
-    else:
-        print "table not exists"
+def _insert_data(table_name, column_name, column_data):
+    query = 'INSERT INTO %s (' + ",".join([name for name in column_name]) + ' ) VALUES %s'
+    print query
+    _execute_query(query % (table_name, column_data))
+    _commit()
 
 
+# for retrive data
 def _retrive_data(table_name, column_name):
     if _table_exist(table_name):
-
         result = select_all("SELECT %s FROM %s;" % (column_name, table_name), {"column_name": column_name, "table_name": table_name})
         print result
     else:
         print "table not exists"
+
+
+# for update data
+def _update_data(table_name, column_name, column_data, list_id):
+    all_id = tuple(list_id)
+    query = 'UPDATE %s SET (' + ",".join([name for name in column_name]) + ') = %s where id IN %s'
+    _execute_query(query % (table_name, column_data, all_id))
+    _commit()
+
+
+# for delete data
+def _delete_data(table_name, list_id):
+    all_id = tuple(list_id)
+    _execute_query('DELETE FROM "%s" where id IN %s' % (table_name, all_id))
+    _commit()

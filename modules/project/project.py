@@ -7,10 +7,10 @@ class Project(orm.ORM):
     _fields = {
         'name': fields.Text(),
         'amount': fields.Integer(),
-        'prices': fields.Float(),
+        'price': fields.Float(),
         'last_date': fields.Date(),
         'datetime': fields.Date_time(),
-        'booo': fields.Boolean()
+        'active': fields.Boolean()
     }
 
-Project()
+p = Project()
