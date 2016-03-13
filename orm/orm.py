@@ -67,3 +67,17 @@ class ORM(object):
             fields = [f for f in fields if f in all_fields]
         where_clause = self.generate_where_clause(conditions)
         return db._get_vals_dict(self._table_name, where_clause, fields, order, offset, limit)
+
+    def read(self, ids, fields=None, order='id', offset=0, limit=""):
+        all_fields = self._field_dict.keys()
+        if not fields:
+            fields = all_fields
+        else:
+            fields = [f for f in fields if f in all_fields]
+        if ids:
+            domain = [['id', 'in', tuple(ids)]]
+        else:
+            domain = []
+        where_clause = self.generate_where_clause(domain)
+        print where_clause
+        return db._get_vals_dict(self._table_name, where_clause, fields, order, offset, limit)
