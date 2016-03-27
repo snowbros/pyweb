@@ -1,52 +1,62 @@
 {% extends "base.html" %}
-{% block header %}
-    <nav class="navbar navbar-default navbar-inverse">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">Easy Projects</a>
-        </div>
+{% block assets %}
+<script type="text/javascript">
+    $(document).ready(function () {
+        // speed in milliseconds
+      var scrollSpeed =40;
 
-        <div class="collapse navbar-collapse pull-right" >
-          <ul class="nav navbar-nav">
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
-              <ul class="dropdown-menu" role="menu">
-                <li><a href="#">Action</a></li>
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else here</a></li>
-                <li class="divider"></li>
-                <li><a href="#">Separated link</a></li>
-                <li class="divider"></li>
-                <li><a href="#">One more separated link</a></li>
-              </ul>
-            </li>
-            <li class="active"><a href="/">Home</span></a></li>
-            <li><a href="/login">Login</a></li>
-          </ul> 
-        </div>
-      </div>
-    </nav>
+      // set the direction
+      var direction = 'h';
+
+      // set the default position
+      var current = 0;
+      var current_y = 0;
+
+      var bgscroll = function(){
+        ;
+          // 1 pixel row at a time
+          current -= 1;
+          if(Math.abs(current) % 2){
+            current_y -= 1;
+          }
+       
+          // move the background with backgrond-position css properties
+          $('.bg_pattern').css("background-position", current+"px "+current_y+"px");
+       
+      }
+
+      //Calls the scrolling function repeatedly
+      var init = setInterval(bgscroll, scrollSpeed);
+    });
+</script>
+{% endblock %}
+
+{% set main_class = 'bg_pattern' %}
+{% block header %}
+    
 {% endblock %}
 
 {% block main %}
   <div class="project_login_container">
-  <h2 class="text-center text-muted mt0">Sign in</h2>
-  <form class="project_login_form">
-      <div class="form-group">
-          <label for="exampleInputEmail1">Login</label>
-          <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
-      </div>
-      <div class="form-group">
-          <label for="exampleInputPassword1">Password</label>
-          <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-      </div>
-      <button type="button" class="btn btn-primary btn-block">Login</button>
-  </form>
+        <h3 class="text-center f_thin mt0">Sign in</h3>
+        <form class="project_login_form">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Login</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Password</label>
+                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+            </div>
+            <button type="button" class="btn btn-primary btn-block">Login</button>
+        </form>
+        <div class="btn-group btn-group-justified mt24" role="group">
+            <div class="btn-group" role="group">
+                <a class="btn btn-default btn-group-justified no_shadow">New User</a>
+            </div>
+            <div class="btn-group" role="group">
+                <a class="btn btn-default btn-group-justified no_shadow">Fargot Password</a>
+            </div>
+        </div>
   </div>
 {% endblock %}

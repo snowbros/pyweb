@@ -1,0 +1,87 @@
+
+@border-radius-base:        0px;
+@border-radius-large:       0px;
+@border-radius-small:       0px;
+
+@navbar-height:             55px;
+
+@bg-primry: #F5F2F4;
+
+
+
+html, body, #wrapwrap {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  height: 100%;
+}
+
+#wrapwrap {
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+}
+#wrapwrap > * {
+  display: table-row;
+}
+#wrapwrap > main {
+  height: 100%;
+  background: @bg-primry;
+}
+#wrapwrap > header > .navbar{
+  margin-bottom: 0px;
+}
+
+#wrapwrap > footer {
+   height: 100%;
+   background: rgba(200, 200, 200, 0.1);
+ }
+#wrapwrap{
+    main{
+        
+        &.bg_pattern{
+            background-image: url("/static/img/bg/bg.png");
+            background-repeat: repeat;
+        }
+
+        .mt0{
+            margin-top: 0px;
+        }
+
+        .mb0{
+            margin-bottom: 0px;
+        }
+
+        .mt8{
+            margin-top: 8px;
+        }
+        
+        .mt16{
+            margin-top: 16px;
+        }
+
+        .mt24{
+            margin-top: 24px;
+        }
+
+        .no_shadow{
+            box-shadow: none;
+            -webkit-box-shadow: none;
+        }
+        .f_thin{
+            font-weight: 300;
+        }
+
+        .project_login_container{
+            width: 450px;
+            margin: 50px auto;
+            background: rgba(255,255,255,0.85);
+            border: 1px solid #DFDDDD;
+            border-top: 4px solid @brand-primary;
+            padding: 30px;
+            -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+        }
+
+    }
+}

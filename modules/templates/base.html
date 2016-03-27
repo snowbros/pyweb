@@ -1,26 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="static/css/bootstrap.css">
-    <link rel="stylesheet" href="static/css/custom.css">
-    <link rel="stylesheet" href="static/libs/font_awesome/css/font-awesome.css">
-    <script src="static/libs/jquery/jquery.js"></script>
-    <script src="static/js/bootstrap.js"></script>
-    <!-- <script src="static/js/bootstrap.js"></script> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% include "assets_frontend.html" %}
+    {% block assets %}
+    {% endblock %}
 </head>
 <body>
     <div id="wrapwrap">
         <header>
-          {% block header %}
-          {% endblock %}
+            {% if disable_nav is not defined %}
+                {% include "navbar.html" %}
+            {% endif %}
+            {% block header %}
+            {% endblock %}
         </header>
-        {% if main_class %}
-          <main class="{{main_class}}">
-        {% endif %}
-        {% if not main_class %}
-          <main>
-        {% endif %}
+        <main class="{{main_class or ''}}">
           {% block main %}
+
           {% endblock %}
         </main>
         <footer>

@@ -10,3 +10,7 @@ def login():
 @web_path.route('/')
 def home():
     return render_template('home.html')
+
+@web_path.route('/base')
+def base():
+    return render_template('base.html')
