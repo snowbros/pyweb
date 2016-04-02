@@ -1,3 +1,3 @@
 from flask import Flask
 
-web_path = Flask(__name__)
+web = Flask(__name__)
