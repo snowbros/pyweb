@@ -5,13 +5,48 @@ from conditions import Parser
 logger = logging.getLogger(__name__)
 
 
+class TableRegistry:
+
+    class __TableRegistry:
+        table_registry = {}
+
+        def _add_table_entry(self, table_obj):
+            self.table_registry[table_obj._table_name] = table_obj
+
+        def __getattr__(self, name):
+            if self.table_registry.get(name):
+                return self.table_registry.get(name)
+            else:
+                raise AttributeError
+
+    instance = None
+
+    def __init__(self):
+        if not TableRegistry.instance:
+            TableRegistry.instance = TableRegistry.__TableRegistry()
+
+    def add_table_entry(self, table_obj):
+        self.instance._add_table_entry(table_obj)
+
+    def __getattr__(self, name):
+        return getattr(self.instance, name)
+
+    def __str__(self):
+        if self.instance is None:
+            return "TableRegistry(No Init)"
+        else:
+            return "TableRegistry() with %s" % (TableRegistry.instance.table_registry.keys())
+
+
 class ORM(object):
 
     _auto_mode = True
+    Registry = TableRegistry()
 
     def __init__(self):
         if self._auto_mode:
             self._auto_init()
+        self.Registry.add_table_entry(self)
 
     def _auto_init(self):
         table_name = self._table_name
