@@ -66,7 +66,10 @@ class ORM(object):
         for field_name, value in values.items():
             if field_name in all_fields:
                 fields.append(field_name)
-                vals.append(value)
+                if type(value) is unicode:
+                    vals.append(value.encode('utf-8'))
+                else:
+                    vals.append(value)
             else:
                 logger.warning("Skipped, Field '%s' not available" % (field_name))
         return tuple(fields), tuple(vals)
@@ -114,5 +117,4 @@ class ORM(object):
         else:
             domain = []
         where_clause = self.generate_where_clause(domain)
-        print where_clause
         return db._get_vals_dict(self._table_name, where_clause, fields, order, offset, limit)

@@ -15,6 +15,10 @@ class Condition(object):
         These strings are going to used in parser to build query
     """
     def __init__(self, field_name, operator, value, model):
+        self.null = False
+        if type(value) is unicode:
+            value = value.encode('utf-8')
+        model._field_dict.get(field_name) 
         self.field_name = field_name
         self.operator = operator
         self.value = value
@@ -30,6 +34,10 @@ class Condition(object):
             assert isinstance(self.value, tuple), "If you use operator 'in' value should be tuple"
         self.is_valid = True
 
+        # if some one sent boolean value to compare (serching for null)
+        if self.model._field_dict[self.field_name]['data_type'] in ['varchar', 'text'] and not self.value:
+            self.null = True
+
     def __str__(self):
         return "Condition(%s %s %s)" % (repr(self.field_name), repr(self.operator), repr(self.value))
 
@@ -37,7 +45,11 @@ class Condition(object):
         return "Condition(%s %s %s)" % (repr(self.field_name), repr(self.operator), repr(self.value))
 
     def _to_sql_str(self):
-        return "%s %s %s" % (self.field_name, self.operator, repr(self.value))
+        if self.null:
+            value = 'null'
+        else:
+            value = repr(self.value)
+        return "%s %s %s" % (self.field_name, self.operator, value)
 
 
 class Parser(object):

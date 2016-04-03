@@ -55,15 +55,26 @@ html, body, #wrapwrap {
         .mt8{
             margin-top: 8px;
         }
-        
+
+        .mb8{
+            margin-bottom: 8px;
+        }
+
         .mt16{
             margin-top: 16px;
+        }
+
+        .mb16{
+            margin-bottom: 16px;
         }
 
         .mt24{
             margin-top: 24px;
         }
 
+        .mb32{
+            margin-bottom: 32px;
+        }
         .no_shadow{
             box-shadow: none;
             -webkit-box-shadow: none;
@@ -71,17 +82,90 @@ html, body, #wrapwrap {
         .f_thin{
             font-weight: 300;
         }
+        textarea:hover,
+        input:hover,
+        textarea:active,
+        input:active,
+        textarea:focus,
+        input:focus,
+        button:focus,
+        button:active,
+        button:hover
+        {
+            outline:0px !important;
+            -webkit-appearance:none;
+        }
 
         .project_login_container{
             width: 450px;
             margin: 50px auto;
             background: rgba(255,255,255,0.85);
-            border: 1px solid #DFDDDD;
+            border: 0px solid #DFDDDD;
             border-top: 4px solid @brand-primary;
             padding: 30px;
             -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
             box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+            @media (max-width: 450px) {
+                width: 90%;
+            }
+
+            .google_login_icon{
+                img{
+                    max-height: 30px;
+                    display:inline-block;
+                }
+                .login_text{
+                    margin-top: 2px;
+                    display:inline-block;
+                    font-size: 13px;
+                }
+            }
+
         }
 
+        .flotting_form{
+
+            .form-group {
+                display: flex;
+                height: 55px;
+            }
+
+            .control-label {
+                font-size: 16px;
+                font-weight: 400;
+                opacity: 0.4;
+                pointer-events: none;
+                position: absolute;
+                transform: translate3d(0, 22px, 0) scale(1);
+                transform-origin: left top;
+                transition: 240ms;
+            }
+
+            .form-group.focused .control-label {
+                opacity: 1;
+                transform: scale(0.75);
+            }
+
+            .form-control {
+                align-self: flex-end;
+            }
+
+            .form-control::-webkit-input-placeholder {
+                color: transparent;
+                transition: 240ms;
+            }
+
+            .form-control:focus::-webkit-input-placeholder {
+                transition: none;
+            }
+
+            .form-group.focused .form-control::-webkit-input-placeholder {
+                color: #bbb;
+            }
+            .help-block.floatting{
+                position: absolute;
+                transform: translate3d(0, 50px, 0) scale(1);
+            }
+        }
     }
 }

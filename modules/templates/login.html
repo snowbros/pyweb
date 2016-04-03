@@ -1,34 +1,6 @@
 {% extends "base.html" %}
 {% block assets %}
-<script type="text/javascript">
-    $(document).ready(function () {
-        // speed in milliseconds
-      var scrollSpeed =40;
-
-      // set the direction
-      var direction = 'h';
-
-      // set the default position
-      var current = 0;
-      var current_y = 0;
-
-      var bgscroll = function(){
-        ;
-          // 1 pixel row at a time
-          current -= 1;
-          if(Math.abs(current) % 2){
-            current_y -= 1;
-          }
-       
-          // move the background with backgrond-position css properties
-          $('.bg_pattern').css("background-position", current+"px "+current_y+"px");
-       
-      }
-
-      //Calls the scrolling function repeatedly
-      var init = setInterval(bgscroll, scrollSpeed);
-    });
-</script>
+<script src="static/js/bg_scroll.js"></script>
 {% endblock %}
 
 {% set main_class = 'bg_pattern' %}
@@ -39,24 +11,34 @@
 {% block main %}
   <div class="project_login_container">
         <h3 class="text-center f_thin mt0">Sign in</h3>
-        <form class="project_login_form">
-            <div class="form-group">
-                <label for="exampleInputEmail1">Login</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+        <form class="project_login_form flotting_form" method="POST" action="/login">
+            {{ form.hidden_tag() }}
+            <div class="form-group {{ form.email.errors and 'mb32 has-error'}}">
+                <label class="control-label text-primary" for="LoginUserName">Email</label>
+                {{ form.email(size=20, **{'class': 'form-control', 'id': 'LoginUserName', 'required':'true'}) }}
             </div>
-            <div class="form-group">
-                <label for="exampleInputPassword1">Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+            <div class="form-group {{ form.password.errors and 'mb32 has-error'}}">
+                <label class="control-label text-primary" for="LoginPassword">Password</label>
+                {% if form.password.errors %}
+                    <span class="help-block floatting">{{ form.password.errors[0] }} </span>
+                {% endif %}
+                {{ form.password(size=20, **{'type':'password', 'class': 'form-control', 'id': 'LoginPassword'}) }}
             </div>
-            <button type="button" class="btn btn-primary btn-block">Login</button>
+            <button type="submit" class="btn btn-primary btn-block">Login</button>
         </form>
-        <div class="btn-group btn-group-justified mt24" role="group">
-            <div class="btn-group" role="group">
-                <a class="btn btn-default btn-group-justified no_shadow">New User</a>
+
+        <div class="row mt16">
+            <div class="col-xs-6">
+                <a class="no_decoration" href="/sign_up">New Account</a>
             </div>
-            <div class="btn-group" role="group">
-                <a class="btn btn-default btn-group-justified no_shadow">Fargot Password</a>
+            <div class="col-xs-6">
+                <a class="no_decoration pull-right" href="/forgot_password" class="pull-right">Forgot Password</a>
             </div>
         </div>
+        <hr/>
+        <a class="btn btn-default btn-block btn-lg google_login_icon" href="/google_login">
+            <img class="img img-responsive" src="/static/img/google_logo.png"/>
+            <span class="login_text"> Sign in With Google</span>
+        </a>
   </div>
 {% endblock %}

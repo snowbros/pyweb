@@ -93,7 +93,6 @@ def _orm_add_column(field_obj):
 # for inserting data into table
 def _insert_data(table_name, column_name, column_data):
     query = 'INSERT INTO %s (' + ",".join(column_name) + ' ) VALUES %s'
-    print query
     _execute_query(query % (table_name, column_data))
     _commit()
 

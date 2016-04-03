@@ -6678,11 +6678,20 @@ body,
 #wrapwrap main .mt8 {
   margin-top: 8px;
 }
+#wrapwrap main .mb8 {
+  margin-bottom: 8px;
+}
 #wrapwrap main .mt16 {
   margin-top: 16px;
 }
+#wrapwrap main .mb16 {
+  margin-bottom: 16px;
+}
 #wrapwrap main .mt24 {
   margin-top: 24px;
+}
+#wrapwrap main .mb32 {
+  margin-bottom: 32px;
 }
 #wrapwrap main .no_shadow {
   box-shadow: none;
@@ -6691,15 +6700,76 @@ body,
 #wrapwrap main .f_thin {
   font-weight: 300;
 }
+#wrapwrap main textarea:hover,
+#wrapwrap main input:hover,
+#wrapwrap main textarea:active,
+#wrapwrap main input:active,
+#wrapwrap main textarea:focus,
+#wrapwrap main input:focus,
+#wrapwrap main button:focus,
+#wrapwrap main button:active,
+#wrapwrap main button:hover {
+  outline: 0px !important;
+  -webkit-appearance: none;
+}
 #wrapwrap main .project_login_container {
   width: 450px;
   margin: 50px auto;
   background: rgba(255, 255, 255, 0.85);
-  border: 1px solid #DFDDDD;
+  border: 0px solid #DFDDDD;
   border-top: 4px solid #816177;
   padding: 30px;
   -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+}
+@media (max-width: 450px) {
+  #wrapwrap main .project_login_container {
+    width: 90%;
+  }
+}
+#wrapwrap main .project_login_container .google_login_icon img {
+  max-height: 30px;
+  display: inline-block;
+}
+#wrapwrap main .project_login_container .google_login_icon .login_text {
+  margin-top: 2px;
+  display: inline-block;
+  font-size: 13px;
+}
+#wrapwrap main .flotting_form .form-group {
+  display: flex;
+  height: 55px;
+}
+#wrapwrap main .flotting_form .control-label {
+  font-size: 16px;
+  font-weight: 400;
+  opacity: 0.4;
+  pointer-events: none;
+  position: absolute;
+  transform: translate3d(0, 22px, 0) scale(1);
+  transform-origin: left top;
+  transition: 240ms;
+}
+#wrapwrap main .flotting_form .form-group.focused .control-label {
+  opacity: 1;
+  transform: scale(0.75);
+}
+#wrapwrap main .flotting_form .form-control {
+  align-self: flex-end;
+}
+#wrapwrap main .flotting_form .form-control::-webkit-input-placeholder {
+  color: transparent;
+  transition: 240ms;
+}
+#wrapwrap main .flotting_form .form-control:focus::-webkit-input-placeholder {
+  transition: none;
+}
+#wrapwrap main .flotting_form .form-group.focused .form-control::-webkit-input-placeholder {
+  color: #bbb;
+}
+#wrapwrap main .flotting_form .help-block.floatting {
+  position: absolute;
+  transform: translate3d(0, 50px, 0) scale(1);
 }
 .navbar {
   border: none;

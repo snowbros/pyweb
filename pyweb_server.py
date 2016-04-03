@@ -10,5 +10,7 @@ from modules.flask_app import web
 if config_options.log_level == "DEBUG":
     web.debug = True
 
+web.secret_key = 's3cr3t'
 
-web.run(extra_files=extra_files)
+
+web.run(host='0.0.0.0', extra_files=extra_files)
