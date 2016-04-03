@@ -19,7 +19,7 @@ cwd = os.getcwd()
 source = cwd + '/modules/static/less/build.less'
 dest = cwd + '/modules/static/css/bootstrap.css'
 try:
-    subprocess.Popen(['lessc', source, dest])
+    subprocess.Popen(['lessc', source, dest, '--clean-css'])
     logger.info("New Less compiled")
 except:
     logger.error("Error in less compile")
