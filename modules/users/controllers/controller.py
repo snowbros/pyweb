@@ -21,6 +21,8 @@ def do_login(user_email, password):
         if user.is_authenticated:
             login_user(user)
             return True
+        else:
+            return None
     return False
 
 
@@ -28,8 +30,13 @@ def do_login(user_email, password):
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        if do_login(form.email.data, form.password.data):
+        state = do_login(form.email.data, form.password.data)
+        if state:
             return redirect(url_for('home'))
+        elif state is None:
+            form.password.errors = ['Wrong Password']
+        else:
+            form.email.errors = ['User does not exist']
     form.password.data = None
     return render_template('login.html', main_class="login_back", form=form)
 
