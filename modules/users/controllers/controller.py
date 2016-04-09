@@ -38,7 +38,7 @@ def login():
         else:
             form.email.errors = ['User does not exist']
     form.password.data = None
-    return render_template('login.html', main_class="login_back", form=form)
+    return render_template('login/login.html', main_class="login_back", form=form)
 
 
 @web.route('/sign_up', methods=('GET', 'POST'))
@@ -56,7 +56,7 @@ def sign_up():
 
     sign_up_form.password.data = None
     sign_up_form.password_cmp.data = None
-    return render_template('sign_up.html', main_class="login_back", form=sign_up_form)
+    return render_template('login/sign_up.html', main_class="login_back", form=sign_up_form)
 
 
 @login_manager.user_loader
@@ -69,16 +69,16 @@ def load_user(user_id):
 
 @web.route('/')
 def index():
-    return render_template('index.html')
-
-
-@web.route('/home')
-@login_required
-def home():
-    return render_template('home.html')
+    return render_template('frontend/home.html')
 
 
 @web.errorhandler(401)
 def no_auth(e):
     return redirect(url_for('login'))
 
+
+# secure methods
+@web.route('/home')
+# @login_required
+def home():
+    return render_template('backend/home.html')

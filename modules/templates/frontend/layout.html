@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% include "frontend/assets.html" %}
+    {% block assets %}
+    {% endblock %}
+</head>
+<body>
+    <div id="wrapwrap">
+        <header>
+            {% block header %}
+                {% if disable_nav is not defined %}
+                    {% include "frontend/navbar.html" %}
+                {% endif %}
+            {% endblock %}
+        </header>
+        <main class="{{main_class or ''}}">
+          {% block main %}
+
+          {% endblock %}
+        </main>
+        <footer>
+          {% block footer %}
+          {% endblock %}
+        </footer>
+    </div>
+</body>
+</html>

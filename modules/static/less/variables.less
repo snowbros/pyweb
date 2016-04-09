@@ -21,7 +21,7 @@
 //@brand-primary:         #816177;
 //@brand-primary:         #5b9a68;
 // @brand-primary:         #816177;
-@brand-primary:         #816177;
+@brand-primary:         #7E5673;
 @brand-success:         #5b9a68;
 @brand-info:            #64A0CE;
 @brand-warning:         #ed9f40;
@@ -83,7 +83,7 @@
 //## Specify custom location and filename of the included Glyphicons icon font. Useful for those including Bootstrap via Bower.
 
 //** Load fonts from this directory.
-@icon-font-path:          "../fonts/";
+@icon-font-path:          "../bootstrap/fonts/";
 //** File name for all font files.
 @icon-font-name:          "glyphicons-halflings-regular";
 //** Element ID within SVG icon file.
@@ -402,9 +402,9 @@
 @navbar-inverse-border:                     transparent;
 
 // Inverted navbar links
-@navbar-inverse-link-color:                 lighten(@brand-primary, 45%);
+@navbar-inverse-link-color:                 lighten(@brand-primary, 50%);
 @navbar-inverse-link-hover-color:           #fff;
-@navbar-inverse-link-hover-bg:              transparent;
+@navbar-inverse-link-hover-bg:              darken(@navbar-inverse-bg, 5%);
 @navbar-inverse-link-active-color:          @navbar-inverse-link-hover-color;
 @navbar-inverse-link-active-bg:             darken(@navbar-inverse-bg, 10%);
 @navbar-inverse-link-disabled-color:        #444;

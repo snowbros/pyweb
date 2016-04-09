@@ -80,3 +80,11 @@ class Date_time(BaseField):
 
     def _add_column(self):
         db._orm_add_column(self)
+
+
+class Binary(BaseField):
+
+    _type = "bytea"
+
+    def _add_column(self):
+        db._orm_add_column(self)

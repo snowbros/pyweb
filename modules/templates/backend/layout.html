@@ -2,17 +2,17 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    {% include "assets_frontend.html" %}
+    {% include "backend/assets.html" %}
     {% block assets %}
     {% endblock %}
 </head>
 <body>
     <div id="wrapwrap">
         <header>
-            {% if disable_nav is not defined %}
-                {% include "navbar.html" %}
-            {% endif %}
             {% block header %}
+                {% if disable_nav is not defined %}
+                    {% include "backend/navbar.html" %}
+                {% endif %}
             {% endblock %}
         </header>
         <main class="{{main_class or ''}}">

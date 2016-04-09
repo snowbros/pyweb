@@ -4,168 +4,393 @@
 @border-radius-small:       0px;
 
 @navbar-height:             55px;
-
 @bg-primry: #F5F2F4;
+@modal-backdrop-opacity: 0.6;
 
+// ------ <START> Model LESS (outside of wrapwrap inside body ) ----------
+.model_mixin(){
+    .modal-content{
+        -webkit-box-shadow:1px 2px 4px rgba(0,0,0,.5) !important;
+        box-shadow:1px 2px 4px rgba(0,0,0,.5) !important;
 
-
-html, body, #wrapwrap {
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  height: 100%;
-}
-
-#wrapwrap {
-  display: table;
-  table-layout: fixed;
-  width: 100%;
-}
-#wrapwrap > * {
-  display: table-row;
-}
-#wrapwrap > main {
-  height: 100%;
-  background: @bg-primry;
-}
-#wrapwrap > header > .navbar{
-  margin-bottom: 0px;
-}
-
-#wrapwrap > footer {
-   height: 100%;
-   background: rgba(200, 200, 200, 0.1);
- }
-#wrapwrap{
-    main{
-        
-        &.bg_pattern{
-            background-image: url("/static/img/bg/bg.png");
-            background-repeat: repeat;
+        .modal-body{
+            max-height: 400px;
+            overflow-y: scroll;
         }
 
-        .mt0{
-            margin-top: 0px;
-        }
+        .modal-header {
+            background: @brand-primary;
 
-        .mb0{
-            margin-bottom: 0px;
-        }
-
-        .mt8{
-            margin-top: 8px;
-        }
-
-        .mb8{
-            margin-bottom: 8px;
-        }
-
-        .mt16{
-            margin-top: 16px;
-        }
-
-        .mb16{
-            margin-bottom: 16px;
-        }
-
-        .mt24{
-            margin-top: 24px;
-        }
-
-        .mb32{
-            margin-bottom: 32px;
-        }
-        .no_shadow{
-            box-shadow: none;
-            -webkit-box-shadow: none;
-        }
-        .f_thin{
-            font-weight: 300;
-        }
-        textarea:hover,
-        input:hover,
-        textarea:active,
-        input:active,
-        textarea:focus,
-        input:focus,
-        button:focus,
-        button:active,
-        button:hover
-        {
-            outline:0px !important;
-            -webkit-appearance:none;
-        }
-
-        .project_login_container{
-            width: 450px;
-            margin: 50px auto;
-            background: rgba(255,255,255,0.85);
-            border: 0px solid #DFDDDD;
-            border-top: 4px solid @brand-primary;
-            padding: 30px;
-            -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
-            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
-            @media (max-width: 450px) {
-                width: 90%;
+            .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+                color: @bg-primry;
+                font-weight: 100;
             }
 
-            .google_login_icon{
-                img{
-                    max-height: 30px;
-                    display:inline-block;
-                }
-                .login_text{
-                    margin-top: 2px;
-                    display:inline-block;
-                    font-size: 13px;
+            .close {
+                margin-top: 6px;
+                color: white;
+            }
+
+            .model_title_icon{
+                i{
+                    border-radius: 70px;
+                    padding: 10px 0px 7px 12px;
+                    height: 45px;
+                    width: 45px;
+                    background: @bg-primry;
+                    box-shadow: 1px 1px 2px rgba(10, 10, 10, 0.32);
+                    color: @brand-primary;
                 }
             }
 
         }
 
-        .flotting_form{
+        .modal-footer{
+              background: #E0E0E0;
+        }
 
-            .form-group {
-                display: flex;
-                height: 55px;
-            }
+    }
+}
+// ------ <END> Model LESS (outside of wrapwrap inside body ) ----------
 
-            .control-label {
-                font-size: 16px;
-                font-weight: 400;
-                opacity: 0.4;
-                pointer-events: none;
-                position: absolute;
-                transform: translate3d(0, 22px, 0) scale(1);
-                transform-origin: left top;
-                transition: 240ms;
-            }
 
-            .form-group.focused .control-label {
-                opacity: 1;
-                transform: scale(0.75);
-            }
+// ------ <START> Frontend Login Mixin ----------
+.login_mixin(){
+    .project_login_container{
+        width: 450px;
+        margin: 50px auto;
+        background: rgba(255,255,255,0.85);
+        border: 0px solid #DFDDDD;
+        border-top: 4px solid @brand-primary;
+        padding: 30px;
+        -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
 
-            .form-control {
-                align-self: flex-end;
-            }
+        @media (max-width: 450px) {
+            width: 90%;
+        }
 
-            .form-control::-webkit-input-placeholder {
-                color: transparent;
-                transition: 240ms;
+        .google_login_icon{
+            img{
+                max-height: 30px;
+                display:inline-block;
             }
-
-            .form-control:focus::-webkit-input-placeholder {
-                transition: none;
-            }
-
-            .form-group.focused .form-control::-webkit-input-placeholder {
-                color: #bbb;
-            }
-            .help-block.floatting{
-                position: absolute;
-                transform: translate3d(0, 50px, 0) scale(1);
+            .login_text{
+                margin-top: 2px;
+                display:inline-block;
+                font-size: 13px;
             }
         }
     }
+}
+// ------ <END> Frontend Login Mixin ----------
+
+
+// ------ <START> Flotting form frontend Todo -remove ----------
+.flotting_form_frontend(){
+    .flotting_form{
+        .form-group {
+            display: flex;
+            height: 55px;
+        }
+        .control-label {
+            font-size: 16px;
+            font-weight: 400;
+            opacity: 0.4;
+            pointer-events: none;
+            position: absolute;
+            transform: translate3d(0, 22px, 0) scale(1);
+            transform-origin: left top;
+            transition: 240ms;
+        }
+        .form-group.focused .control-label {
+            opacity: 1;
+            transform: scale(0.75);
+        }
+        .form-control {
+            align-self: flex-end;
+        }
+        .form-control::-webkit-input-placeholder {
+            color: transparent;
+            transition: 240ms;
+        }
+        .form-control:focus::-webkit-input-placeholder {
+            transition: none;
+        }
+        .form-group.focused .form-control::-webkit-input-placeholder {
+            color: #bbb;
+        }
+        .help-block.floatting{
+            position: absolute;
+            transform: translate3d(0, 50px, 0) scale(1);
+        }
+    }
+}
+// ------ <END> Flotting form frontend Todo -remove ----------
+
+
+// ------ <Start> Color picker ----------
+.color_picker_mixin(){
+    &.color-picker{
+
+        .color_picker(@color){
+            &.@{color}:before{
+              background: @@color;
+            }
+            &.@{color}:after{
+                border: 2px solid @@color;
+            }
+            &.@{color}.active:after{
+                background: @@color;
+            }
+        }
+
+        @c_1: #E26969;
+        @c_2: #72AA80;
+        @c_3: #DF8349;
+        @c_4: #64A4AF;
+        @c_5: #798384;
+        @c_6: #537386;
+        @c_7: #8EA8CA;
+        @c_8: #9E6F5F;
+
+        .color{
+
+            display: inline-block;
+            margin-right: 5px;
+            &:before{
+                height: 14px;
+                width: 14px;
+                display: inline-block;
+                position: absolute;
+                content: "";
+                border-radius: 15px;
+                cursor: pointer;
+                margin-top: 4px;
+                margin-left: 4px;
+            }
+
+            &:after{
+                height: 22px;
+                width: 22px;
+                display: inline-block;
+                border-radius: 15px;
+                content: "";
+                display: block;
+            }
+
+            &:hover:before{
+                transform: scale(1.5);
+                transition: 440ms;
+            }
+            
+            .color_picker(c_1);
+            .color_picker(c_2);
+            .color_picker(c_3);
+            .color_picker(c_4);
+            .color_picker(c_5);
+            .color_picker(c_6);
+            .color_picker(c_7);
+            .color_picker(c_8);
+        }
+    }
+}
+// ------ <END> Color picker ----------
+
+
+// ------ <Start> Flotting form Backend ----------
+.flotting_form_backend_mixin(){
+    .flotting_form_backend{
+
+        .form-group,.input-group{
+
+            input[type=text].input-lg,input.input-lg{
+              font-size: 28px;
+            }
+
+            input[type=text], textarea{
+              margin-top: 30px;
+            }
+
+            .control-label{
+                  font-size: 16px;
+                  font-weight: 400;
+                  transform: translate3d(0, 4px, 0) scale(1);
+                  opacity: 0.4;
+                  pointer-events: none;
+                  position: absolute;
+                  transform-origin: left top;
+                  transition: 240ms;
+            }
+
+            .label-lg.control-label{
+                  font-size: 28px;
+                  font-weight: 400;
+                  transform: translate3d(0, -3px, 0) scale(1);
+                  opacity: 0.4;
+            }
+
+            .label-textarea.control-label{
+                  font-size: 16px;
+                  font-weight: 400;
+                  transform: translate3d(0, 0, 0) scale(1);
+                  opacity: 0.4;
+            }
+
+            &.focused{
+                >.control-label{
+                      font-size: 13px;
+                      opacity: 1;
+                      position: absolute;
+                      transform: translate3d(0, -18px, 0) scale(1);
+                      transform-origin: left top;
+                }
+              
+            }
+
+            &.form-group-date{
+                position: relative;
+                .input-group-addon{
+                    display: inline-block;
+                    background: @brand-primary;
+                    padding: 8px 20px 10px 10px;
+                    color: white;
+                    float: right;
+                    margin-top: -33px;
+                }
+            }
+            .color_picker_mixin();
+
+        }
+    }
+}
+// ------ <END> Flotting form Backend ----------
+
+
+// ------ <START> Common style--- ----------
+.style_mixin(){
+
+    &.bg_pattern{
+        background-image: url("/static/img/bg/bg.png");
+        background-repeat: repeat;
+    }
+
+    .mt0{
+        margin-top: 0px;
+    }
+
+    .mb0{
+        margin-bottom: 0px;
+    }
+
+    .mt8{
+        margin-top: 8px;
+    }
+
+    .mb8{
+        margin-bottom: 8px;
+    }
+
+    .mt16{
+        margin-top: 16px;
+    }
+
+    .mb16{
+        margin-bottom: 16px;
+    }
+
+    .mt24{
+        margin-top: 24px;
+    }
+
+    .mb32{
+        margin-bottom: 32px;
+    }
+    .no_shadow{
+        box-shadow: none;
+        -webkit-box-shadow: none;
+    }
+    .f_thin{
+        font-weight: 300;
+    }
+    a{
+        cursor: pointer;
+        .n_p{
+             cursor: auto;
+        }
+     }
+
+    .fa{
+        vertical-align: middle;
+    }
+
+}
+// ------ <END> Common style--- ----------
+
+
+//======================  MIXIN END   =========================
+
+// ------ <START> Web Common LESS ----------
+html, body, #wrapwrap {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    height: 100%;
+    .model_mixin();
+}
+
+#wrapwrap {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+}
+#wrapwrap > * {
+    display: table-row;
+}
+#wrapwrap > main {
+    height: 100%;
+    background: @bg-primry;
+}
+#wrapwrap > header > .navbar{
+    margin-bottom: 0px;
+}
+
+#wrapwrap > footer {
+    height: 100%;
+    background: rgba(200, 200, 200, 0.1);
+}
+// ------ <END> Web Common ----------
+
+
+body{
+    #wrapwrap{
+        .blur{
+            -webkit-filter: blur(5px) grayscale(.2);
+            filter: blur(5px) grayscale(.2);
+        }
+        main{
+            .login_mixin();
+        }
+    }
+
+    //because we user foem in model out of wrap wrap
+    .style_mixin();
+    .flotting_form_backend_mixin();
+}
+
+
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    // border-radius: 10px;
+    background-color: #E0E0E0;
+}
+
+::-webkit-scrollbar-thumb {
+    // border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+    background-color: lighten(@brand-primary, 5%);
 }
