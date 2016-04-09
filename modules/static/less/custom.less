@@ -253,7 +253,7 @@
                 .input-group-addon{
                     display: inline-block;
                     background: @brand-primary;
-                    padding: 8px 20px 10px 10px;
+                    padding: 7px 20px 10px 10px;
                     color: white;
                     float: right;
                     margin-top: -33px;
@@ -270,11 +270,6 @@
 // ------ <START> Common style--- ----------
 .style_mixin(){
 
-    &.bg_pattern{
-        background-image: url("/static/img/bg/bg.png");
-        background-repeat: repeat;
-    }
-
     .mt0{
         margin-top: 0px;
     }
@@ -289,6 +284,10 @@
 
     .mb8{
         margin-bottom: 8px;
+    }
+
+    .mt10{
+        margin-top: 10px;
     }
 
     .mt16{
@@ -322,6 +321,24 @@
 
     .fa{
         vertical-align: middle;
+    }
+
+    .display_block{
+        display: block;
+    }
+
+    textarea:hover,
+    input:hover,
+    textarea:active,
+    input:active,
+    textarea:focus,
+    input:focus,
+    button:focus,
+    button:active,
+    button:hover
+    {
+        outline:0px !important;
+        -webkit-appearance:none;
     }
 
 }
@@ -364,12 +381,17 @@ html, body, #wrapwrap {
 
 body{
     #wrapwrap{
-        .blur{
+        .bg_pattern{
+            background-image: url("/static/img/bg/bg.png");
+            background-repeat: repeat;
+        }
+        &.blur{
             -webkit-filter: blur(5px) grayscale(.2);
             filter: blur(5px) grayscale(.2);
         }
         main{
             .login_mixin();
+            .flotting_form_frontend();
         }
     }
 
