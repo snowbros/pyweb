@@ -7,6 +7,16 @@
 @bg-primry: #F5F2F4;
 @modal-backdrop-opacity: 0.6;
 
+//color picker colors
+@c_1: #E26969;
+@c_2: #72AA80;
+@c_3: #DF8349;
+@c_4: #64A4AF;
+@c_5: #798384;
+@c_6: #537386;
+@c_7: #8EA8CA;
+@c_8: #9E6F5F;
+
 // ------ <START> Model LESS (outside of wrapwrap inside body ) ----------
 .model_mixin(){
     .modal-content{
@@ -145,15 +155,6 @@
             }
         }
 
-        @c_1: #E26969;
-        @c_2: #72AA80;
-        @c_3: #DF8349;
-        @c_4: #64A4AF;
-        @c_5: #798384;
-        @c_6: #537386;
-        @c_7: #8EA8CA;
-        @c_8: #9E6F5F;
-
         .color{
 
             display: inline-block;
@@ -266,6 +267,28 @@
 }
 // ------ <END> Flotting form Backend ----------
 
+// ------ <START> projects card--- ----------
+.project_mixin(){
+    &.project_home{
+        .picker_border(@color){
+            &.@{color}{
+                border-top: 4px solid @@color;
+            }
+        }
+        .panel-project{
+            border-radius: 0px;
+            .picker_border(c_1);
+            .picker_border(c_2);
+            .picker_border(c_3);
+            .picker_border(c_4);
+            .picker_border(c_5);
+            .picker_border(c_6);
+            .picker_border(c_7);
+            .picker_border(c_8);
+        }
+    }
+}
+// ------ <END> projects card--- ----------
 
 // ------ <START> Common style--- ----------
 .style_mixin(){
@@ -392,6 +415,7 @@ body{
         main{
             .login_mixin();
             .flotting_form_frontend();
+            .project_mixin();
         }
     }
 

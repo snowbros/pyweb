@@ -6,8 +6,10 @@ class Project(orm.ORM):
 
     _fields = {
         'name': fields.Char(),
+        'color': fields.Char(),
         'description': fields.Text(),
-        'archive': fields.Boolean()
+        'archive': fields.Boolean(),
+        'date': fields.Date_time()
     }
 
 p = Project()
