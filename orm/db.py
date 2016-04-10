@@ -141,7 +141,12 @@ def _retrive_data(table_name, column_name):
 # for update data
 def _update_data(table_name, column_name, column_data, list_id):
     all_id = tuple(list_id)
-    query = 'UPDATE %s SET (' + ",".join([name for name in column_name]) + ') = %s where id IN %s'
+    query = 'UPDATE %s SET (' + ",".join([name for name in column_name]) + ') = %s where'
+    if len(all_id) > 1:
+        query += ' id IN %s'
+    else:
+        query += ' id = %s'
+        all_id = all_id[0]
     _execute_query(query % (table_name, column_data, all_id))
     _commit()
 

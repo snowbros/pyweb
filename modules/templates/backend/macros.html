@@ -1,10 +1,10 @@
-{% macro color_picker() %}
-    <span class="color c_1" data-action="1"> </span>
-    <span class="color c_2" data-action="2"> </span>
-    <span class="color c_3" data-action="3"> </span>
-    <span class="color c_4" data-action="4"> </span>
-    <span class="color c_5" data-action="5"> </span>
-    <span class="color c_6" data-action="6"> </span>
-    <span class="color c_7" data-action="7"> </span>
-    <span class="color c_8" data-action="8"> </span>
+{% macro color_picker(active=False) %}
+    <span class="color c_1 {{ active == '1' and 'active' }}" data-action="1"> </span>
+    <span class="color c_2 {{ active == '2' and 'active' }}" data-action="2"> </span>
+    <span class="color c_3 {{ active == '3' and 'active' }}" data-action="3"> </span>
+    <span class="color c_4 {{ active == '4' and 'active' }}" data-action="4"> </span>
+    <span class="color c_5 {{ active == '5' and 'active' }}" data-action="5"> </span>
+    <span class="color c_6 {{ active=='6' and 'active' }}" data-action="6"> </span>
+    <span class="color c_7 {{ active=='7' and 'active' }}" data-action="7"> </span>
+    <span class="color c_8 {{ active=='8' and 'active' }}" data-action="8"> </span>
 {% endmacro %}

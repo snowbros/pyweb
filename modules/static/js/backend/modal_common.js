@@ -26,5 +26,27 @@ function model_after_work(dialog){
          $(this).addClass('active');
          $(parent).find('input').val($(this).data('action'));
      });
-
+    var user_autocomplete = $(dialog).find(".autocomplete_user");
+    var user_autocomplete_hidden = $(dialog).find(".autocomplete_user_hidden");
+    if(user_autocomplete.length > 0){
+        $.ajax("/autocomplete/users", {
+             type: 'GET',
+             data: [],
+             contentType: 'application/json',
+             success: function(data, textStatus, jqXHR){
+                 data = JSON.parse(data);
+                 $(user_autocomplete).autocomplete({
+                     lookup: data,
+                     width: 250,
+                     dataType: 'json',
+                     onSelect: function (suggestion) {
+                         $(user_autocomplete_hidden).val(suggestion.data);
+                     }
+                 });
+             },
+             error: function(jqXHR, textStatus, errorThrown){
+                console.log(errorThrown);
+             }
+         });
+    }
 };

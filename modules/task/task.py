@@ -2,11 +2,17 @@ from orm import orm, fields
 
 
 class Task(orm.ORM):
-    _table_name = "task"
+    _table_name = "tasks"
 
     _fields = {
-        'name': fields.Text(),
-        'name2': fields.Char(size=100)
+        'name': fields.Char(),
+        'color': fields.Char(),
+        'description': fields.Text(),
+        'archive': fields.Boolean(),
+        'date': fields.Date_time(),
+        'user_id': fields.ManyToOne('users'),
+        'date_deadline': fields.Date_time(),
+        'state': fields.Char()
     }
 
 Task()
