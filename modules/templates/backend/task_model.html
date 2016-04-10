@@ -1,0 +1,81 @@
+{% import 'backend/macros.html' as macros %}
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><span class="model_title_icon"><i class="fa fa-cube"></i> </span> {{ record_id and 'Edit' or 'Create New'}} Task</h4>
+            </div>
+            <form class="project_create_form flotting_form_backend" method="POST" action="/get_task_model{{ record_id and '/' + record_id or ''}}">
+                {{ form.hidden_tag() }}
+                <div class="modal-body">
+                        <div class="form-group">
+                            <label class="control-label label-lg text-primary" for="LoginUserName">Task Title</label>
+                            {{ form.name(size=40, **{'class': 'form-control input-lg', 'required':'true'}) }}
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                            <div class="form-group task_state">
+                                <label class="text-primary"> Task State</label>
+                                <div class="btn-group btn-group-justified" data-toggle="buttons">
+                                  <label class="btn btn-primary active">
+                                    <input type="radio" name="state" autocomplete="off" value="new" checked> <i class="fa fa-check"> </i> New
+                                  </label>
+                                  <label class="btn btn-primary">
+                                    <input type="radio" name="state" autocomplete="off" value="progress"> <i class="fa fa-check"> </i> In Progress
+                                  </label>
+                                  <label class="btn btn-primary">
+                                    <input type="radio" name="state" autocomplete="off" value="test"> <i class="fa fa-check"> </i> Testing
+                                  </label>
+                                  <label class="btn btn-primary">
+                                    <input type="radio" name="state" autocomplete="off" value="done"> <i class="fa fa-check"> </i> Done
+                                  </label>
+                                  <label class="btn btn-primary">
+                                    <input type="radio" name="state" autocomplete="off" value="cancel"> <i class="fa fa-check"> </i> Cancel
+                                  </label>
+                                </div>
+                            </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group color-picker">
+                                    <label class="text-primary display_block mt10">Task Color <span class="color-require hidden text-danger">- Select project color </span></label>
+                                    {{ form.color(size=4, **{'class': 'form-control hidden'}) }}
+                                    {{ macros.color_picker(form.color.data) }}
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label text-primary">Assign Task</label>
+                                    <input class="form-control autocomplete_user" required="true" size="40" type="text">
+                                    {{ form.user_id(size=4, **{'class': 'form-control hidden autocomplete_user_hidden'}) }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group form-group-date">
+                                    <label class="control-label text-primary">Start Date</label>
+                                    {{ form.date(size=40, **{'class': 'form-control', 'required':'true'}) }}
+                                    <span class="input-group-addon">
+                                        <span class="fa fa-calendar"></span>
+                                    </span>
+                                </div>
+                                <div class="form-group form-group-date">
+                                    <label class="control-label text-primary">Deadline</label>
+                                    {{ form.date_deadline(size=40, **{'class': 'form-control', 'required':'true'}) }}
+                                    <span class="input-group-addon">
+                                        <span class="fa fa-calendar"></span>
+                                    </span>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label label-textarea text-primary " for="LoginUserName">Task description</label>
+                            {{ form.description(size=40, **{'class': 'form-control', 'rows': 4, 'required':'true'}) }}
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary pull-left">{{ record_id and 'Save changes' or 'Create' }}</button>
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
