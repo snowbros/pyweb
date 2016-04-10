@@ -18,7 +18,7 @@ class Condition(object):
         self.null = False
         if type(value) is unicode:
             value = value.encode('utf-8')
-        model._field_dict.get(field_name) 
+        model._field_dict.get(field_name)
         self.field_name = field_name
         self.operator = operator
         self.value = value

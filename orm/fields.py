@@ -30,6 +30,7 @@ class BaseField(object):
 class Text(BaseField):
 
     _type = "text"
+    _real_type = "text"
 
     def _add_column(self):
         db._orm_add_column(self)
@@ -38,6 +39,7 @@ class Text(BaseField):
 class Char(BaseField):
 
     _type = "varchar"
+    _real_type = "char"
 
     def __init__(self, size=256, **args):
         self._size = size
@@ -49,6 +51,7 @@ class Char(BaseField):
 class Integer(BaseField):
 
     _type = "INT"
+    _real_type = "int"
 
     def _add_column(self):
         db._orm_add_column(self)
@@ -56,6 +59,7 @@ class Integer(BaseField):
 
 class Float(BaseField):
     _type = "numeric"
+    _real_type = "float"
 
     def _add_column(self):
         db._orm_add_column(self)
@@ -63,6 +67,7 @@ class Float(BaseField):
 
 class Boolean(BaseField):
     _type = "bool"
+    _real_type = "boolean"
 
     def _add_column(self):
         db._orm_add_column(self)
@@ -70,6 +75,7 @@ class Boolean(BaseField):
 
 class Date(BaseField):
     _type = "date"
+    _real_type = "date"
 
     def _add_column(self):
         db._orm_add_column(self)
@@ -77,6 +83,7 @@ class Date(BaseField):
 
 class Date_time(BaseField):
     _type = "timestamp"
+    _real_type = "datetime"
 
     def _add_column(self):
         db._orm_add_column(self)
@@ -85,6 +92,41 @@ class Date_time(BaseField):
 class Binary(BaseField):
 
     _type = "bytea"
+    _real_type = "binary"
 
     def _add_column(self):
         db._orm_add_column(self)
+
+
+class ManyToOne(BaseField):
+
+    _type = "INT"
+    _real_type = "M2O"
+
+    def __init__(self, model, **args):
+        self._size = None
+        self._ref_model = model
+        ForeignKeys(self)
+
+    def _add_column(self):
+        db._orm_add_column(self)
+
+
+class ForeignKeys(object):
+
+    _keys_map = {}
+    _table_registry = False
+
+    def __init__(self, field):
+        if self._keys_map.get(field._ref_model):
+            self._keys_map.get(field._ref_model).append(field)
+        else:
+            self._keys_map[field._ref_model] = [field]
+
+    @staticmethod
+    def generate_foreign_keys():
+        for model, fields in ForeignKeys._keys_map.items():
+            if hasattr(ForeignKeys._table_registry, model):
+                for field in fields:
+                    db._add_foreign_key(field)
+                del ForeignKeys._keys_map[model]

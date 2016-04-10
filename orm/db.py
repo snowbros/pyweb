@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 def _get_connection():
     global connection
     if not connection or connection.closed:
-        connection = psycopg2.connect("dbname='%s' user='batsy'" % (config_options.db_name))
+        connection = psycopg2.connect("dbname='%s' user='pga'" % (config_options.db_name))
     return connection
 
 
@@ -57,6 +57,38 @@ def _create_table(table_name):
         _execute_query('CREATE TABLE "%s" (id SERIAL NOT NULL, PRIMARY KEY(id)) WITH OIDS' % (table_name,))
         _commit()
         logger.debug("TABLE created: %s" % (table_name))
+    return True
+
+
+def _get_foreign_keys(table_name):
+    vals = select_all('''
+        SELECT
+            tc.constraint_name, tc.table_name, kcu.column_name,
+            ccu.table_name AS foreign_table_name,
+            ccu.column_name AS foreign_column_name
+        FROM
+            information_schema.table_constraints AS tc
+            JOIN information_schema.key_column_usage AS kcu
+            ON tc.constraint_name = kcu.constraint_name
+            JOIN information_schema.constraint_column_usage AS ccu
+            ON ccu.constraint_name = tc.constraint_name
+        WHERE constraint_type = 'FOREIGN KEY' AND tc.table_name='%s';''' % (table_name), {})
+    return vals
+
+
+def _add_foreign_key(field_obj):
+    ref_table_name = field_obj._ref_model
+    table_name = field_obj._table_name
+    field_name = field_obj._field_name
+    fk_name = 'fk_%s_%s' % (table_name, field_name)
+    for forign_key_data in _get_foreign_keys(table_name):
+        if fk_name == forign_key_data[0]:
+            return True
+    _execute_query('''ALTER TABLE %s
+        ADD CONSTRAINT %s
+        FOREIGN KEY (%s)
+        REFERENCES %s (id);''' % (table_name, fk_name, field_name, ref_table_name))
+    _commit()
     return True
 
 

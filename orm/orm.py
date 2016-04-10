@@ -2,6 +2,8 @@ import db
 import logging
 from conditions import Parser
 
+from fields import ForeignKeys
+
 logger = logging.getLogger(__name__)
 
 
@@ -38,15 +40,34 @@ class TableRegistry:
             return "TableRegistry() with %s" % (TableRegistry.instance.table_registry.keys())
 
 
+class M2OGetter(object):
+
+    def __init__(self, model, ref_model, id):
+        self.model = model
+        self.ref_model = ref_model
+        self.id = id
+
+    def _get(self):
+        # To-do: replace read with search read if it is safe
+        if not self.id:
+            return {}
+        # To-do: Replace this hack [self.id, 0]
+        return getattr(self.model.Registry, self.ref_model).read([self.id])[0]
+
+
 class ORM(object):
 
     _auto_mode = True
     Registry = TableRegistry()
 
     def __init__(self):
+        self.M2Os = []
         if self._auto_mode:
             self._auto_init()
         self.Registry.add_table_entry(self)
+        if not ForeignKeys._table_registry:
+            ForeignKeys._table_registry = TableRegistry()
+        ForeignKeys.generate_foreign_keys()
 
     def _auto_init(self):
         table_name = self._table_name
@@ -57,6 +78,8 @@ class ORM(object):
             f_obj._set_meta(table_name, f_name)
             if f_name not in field_list:
                 f_obj._add_column()
+            if f_obj._real_type == "M2O":
+                self.M2Os.append(f_name)
         self._field_dict = db._orm_get_columns_info(self)
 
     def prepare_query(self, values):
@@ -97,7 +120,30 @@ class ORM(object):
         where_clause = self.generate_where_clause(conditions)
         return db._get_ids(self._table_name, where_clause, order, offset, limit)
 
+    def get_relational_result(self, result, relational_fields):
+
+        for i, res in enumerate(result):
+            for relational_field in relational_fields:
+                ref_model = self._fields[relational_field]._ref_model
+                result[i][relational_field] = M2OGetter(self, ref_model, res.get(relational_field))
+        return result
+
     def search_read(self, conditions, fields=None, order='id', offset=0, limit=""):
+        all_fields = self._field_dict.keys()
+        if not fields:
+            fields = all_fields
+        else:
+            fields = [f for f in fields if f in all_fields]
+        where_clause = self.generate_where_clause(conditions)
+        result = db._get_vals_dict(self._table_name, where_clause, fields, order, offset, limit)
+
+        relational_fields = [f for f in self.M2Os if f in result[0].keys()]
+        if relational_fields:
+            self.get_relational_result(result, relational_fields)
+
+        return result
+
+    def search_read_basic(self, conditions, fields=None, order='id', offset=0, limit=""):
         all_fields = self._field_dict.keys()
         if not fields:
             fields = all_fields
@@ -112,8 +158,10 @@ class ORM(object):
             fields = all_fields
         else:
             fields = [f for f in fields if f in all_fields]
-        if ids:
+        if len(ids) > 1:
             domain = [['id', 'in', tuple(ids)]]
+        elif ids:
+            domain = [['id', '=', ids[0]]]
         else:
             domain = []
         where_clause = self.generate_where_clause(domain)

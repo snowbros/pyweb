@@ -272,11 +272,41 @@
     &.project_home{
         .picker_border(@color){
             &.@{color}{
-                border-top: 4px solid @@color;
+                border-top: 5px solid @@color;
             }
+            &.@{color} .card_options .btn{
+                background: @@color;
+                color: #FFF;
+                margin-top: -5px;
+                &:active{
+                    background: darken(@@color, 10%);
+                }
+                .fa{
+                    font-size: 15px;
+                }
+            }
+            &.@{color} .dropdown-menu a:hover i{
+                color: @@color;
+            }
+            
         }
         .panel-project{
             border-radius: 0px;
+            .project_title{
+                font-size: 20px;
+                font-weight: 300;
+            }
+            .panel-body{
+                padding: 10px;
+                padding-bottom: 2px;
+            }
+            .card_options{
+                float: right;
+                .btn{
+                    box-shadow: none;
+                    -webkit-box-shadow: none;
+                }
+            }
             .picker_border(c_1);
             .picker_border(c_2);
             .picker_border(c_3);
@@ -292,7 +322,11 @@
 
 // ------ <START> Common style--- ----------
 .style_mixin(){
-
+    
+    .btn.no_shadow{
+        box-shadow: none;
+        -webkit-box-shadow: none;
+    }
     .mt0{
         margin-top: 0px;
     }
@@ -341,10 +375,6 @@
              cursor: auto;
         }
      }
-
-    .fa{
-        vertical-align: middle;
-    }
 
     .display_block{
         display: block;
@@ -416,6 +446,23 @@ body{
             .login_mixin();
             .flotting_form_frontend();
             .project_mixin();
+        }
+
+        .nav-search-custom{
+            margin: 0px;
+            padding: 0px;
+            @media (min-width: 768px) {
+                background: #E6E6E6;
+                margin-right: -30px;
+                input{
+                    padding-left: 10px;
+                    height: 55px;
+                }
+            }
+            .btn_custom{
+                height: 55px;
+                width: 55px;
+            }
         }
     }
 

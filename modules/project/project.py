@@ -9,7 +9,8 @@ class Project(orm.ORM):
         'color': fields.Char(),
         'description': fields.Text(),
         'archive': fields.Boolean(),
-        'date': fields.Date_time()
+        'date': fields.Date_time(),
+        'user_id': fields.ManyToOne('users')
     }
 
 p = Project()
