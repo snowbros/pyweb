@@ -46,7 +46,7 @@ def create_tasks(record_id=False):
 @web.route('/tasks')
 @login_required
 def tasks():
-    return render_template('backend/tasks.html', main_class='tasks_home')
+    return render_template('backend/tasks.html', main_class='task_home')
 
 
 

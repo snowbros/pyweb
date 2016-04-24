@@ -318,6 +318,60 @@
         }
     }
 }
+
+
+.task_mixin(){
+    &.task_home{
+        .picker_border(@color){
+            &.@{color}{
+                border-top: 5px solid @@color;
+            }
+            &.@{color} .card_options .btn{
+                background: @@color;
+                color: #FFF;
+                margin-top: -5px;
+                &:active{
+                    background: darken(@@color, 10%);
+                }
+                .fa{
+                    font-size: 15px;
+                }
+            }
+            &.@{color} .dropdown-menu a:hover i{
+                color: @@color;
+            }
+            
+        }
+        .panel-project{
+            border-radius: 0px;
+            margin: 10px;
+            .project_title{
+                font-size: 20px;
+                font-weight: 300;
+            }
+            .panel-body{
+                padding: 10px;
+                padding-bottom: 2px;
+            }
+            .card_options{
+                float: right;
+                .btn{
+                    box-shadow: none;
+                    -webkit-box-shadow: none;
+                }
+            }
+            .picker_border(c_1);
+            .picker_border(c_2);
+            .picker_border(c_3);
+            .picker_border(c_4);
+            .picker_border(c_5);
+            .picker_border(c_6);
+            .picker_border(c_7);
+            .picker_border(c_8);
+        }
+    }
+}
+
 // ------ <END> projects card--- ----------
 
 // ------ <START> Common style--- ----------
@@ -431,7 +485,7 @@ html, body, #wrapwrap {
 }
 // ------ <END> Web Common ----------
 
-
+.task_mixin();
 body{
     #wrapwrap{
         .bg_pattern{
@@ -486,11 +540,71 @@ body{
     .task_state .btn:not(.active) .fa{
         display: none;
     }
+    .brand_mini{
+        position: absolute;
+        left: 72px;
+        bottom: 0px;
+        font-size: 11px;
+        font-style: italic;
+    }
+    .bg-primary-1{
+        background-color: darken(#F2F2F2, 5%);
+    }
+    .bg-primary-2{
+        // F5F2F4
+        background-color: darken(#F2F2F2, 10%);
+    }
+    .same_height{
+        padding: 0px;
+        .padding_15{
+            padding-right: 15px;
+            padding-left: 15px;
+        }
+        .col_title {
+            color:white;
+            font-size: 20px;
+            padding: 10px;
+            font-weight: 100;
+            margin-bottom: 25px;
+            .fa{
+                padding: 10px;
+            }
+            &.new{
+                background: @c_5;
+                .fa-plus{
+                    float: right;
+                    background: darken(@c_5, 12%);
+                }
+            }
+            &.in_progress{
+                background: @c_4;
+                .fa-plus{
+                    float: right;
+                    background: darken(@c_4, 12%);
+                }
+            }
+            &.testing{
+                background: @c_3;
+                .fa-plus{
+                    float: right;
+                    background: darken(@c_3, 12%);
+                }
+            }
+            &.done{
+                background: @c_2;
+                .fa-plus{
+                    float: right;
+                    background: darken(@c_2, 12%);
+                }
+            }
+        }
+    }
 }
 
 
 ::-webkit-scrollbar {
     width: 6px;
+    height: 6px;
 }
 
 ::-webkit-scrollbar-track {
