@@ -9,5 +9,6 @@ class TaskForm(Form):
     color = StringField('Dolor', validators=[Required()])
     date = StringField('Date', validators=[Required()])
     user_id = IntegerField('user_id')
+    project_id = IntegerField('project_id')
     date_deadline = StringField('Date Deadline', validators=[Required()])
     state = StringField('Status', validators=[Required()])

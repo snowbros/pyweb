@@ -137,9 +137,10 @@ class ORM(object):
         where_clause = self.generate_where_clause(conditions)
         result = db._get_vals_dict(self._table_name, where_clause, fields, order, offset, limit)
 
-        relational_fields = [f for f in self.M2Os if f in result[0].keys()]
-        if relational_fields:
-            self.get_relational_result(result, relational_fields)
+        if result:
+            relational_fields = [f for f in self.M2Os if f in result[0].keys()]
+            if relational_fields:
+                self.get_relational_result(result, relational_fields)
 
         return result
 

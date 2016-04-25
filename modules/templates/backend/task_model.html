@@ -18,19 +18,19 @@
                             <div class="form-group task_state">
                                 <label class="text-primary"> Task State</label>
                                 <div class="btn-group btn-group-justified" data-toggle="buttons">
-                                  <label class="btn btn-primary active">
-                                    <input type="radio" name="state" autocomplete="off" value="new" checked> <i class="fa fa-check"> </i> New
+                                  <label class="btn btn-primary {{ 'active' if form.state.data == 'new' else ''}}" >
+                                    <input type="radio" name="state" autocomplete="off" value="new" > <i class="fa fa-check"> </i> New
                                   </label>
-                                  <label class="btn btn-primary">
+                                  <label class="btn btn-primary {{ 'active' if form.state.data == 'progress' else ''}}">
                                     <input type="radio" name="state" autocomplete="off" value="progress"> <i class="fa fa-check"> </i> In Progress
                                   </label>
-                                  <label class="btn btn-primary">
-                                    <input type="radio" name="state" autocomplete="off" value="test"> <i class="fa fa-check"> </i> Testing
+                                  <label class="btn btn-primary {{ 'active' if form.state.data == 'test' else ''}}">
+                                    <input type="radio" name="state" autocomplete="off" value="test" > <i class="fa fa-check"> </i> Testing
                                   </label>
-                                  <label class="btn btn-primary">
-                                    <input type="radio" name="state" autocomplete="off" value="done"> <i class="fa fa-check"> </i> Done
+                                  <label class="btn btn-primary {{ 'active' if form.state.data == 'done' else ''}}">
+                                    <input type="radio" name="state" autocomplete="off" value="done" > <i class="fa fa-check"> </i> Done
                                   </label>
-                                  <label class="btn btn-primary">
+                                  <label class="btn btn-primary {{ 'active' if form.state.data == 'cancel' else ''}}">
                                     <input type="radio" name="state" autocomplete="off" value="cancel"> <i class="fa fa-check"> </i> Cancel
                                   </label>
                                 </div>
@@ -44,7 +44,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label text-primary">Assign Task</label>
-                                    <input class="form-control autocomplete_user" required="true" size="40" type="text">
+                                    <input class="form-control autocomplete_user" required="true" size="40" type="text" value="{{ user_name }}">
                                     {{ form.user_id(size=4, **{'class': 'form-control hidden autocomplete_user_hidden'}) }}
                                 </div>
                             </div>
@@ -56,6 +56,7 @@
                                         <span class="fa fa-calendar"></span>
                                     </span>
                                 </div>
+
                                 <div class="form-group form-group-date">
                                     <label class="control-label text-primary">Deadline</label>
                                     {{ form.date_deadline(size=40, **{'class': 'form-control', 'required':'true'}) }}
@@ -64,6 +65,7 @@
                                     </span>
                                 </div>
 
+                                {{ form.project_id(size=4, **{'class': 'form-control hidden'}) }}
                             </div>
                         </div>
                         <div class="form-group">

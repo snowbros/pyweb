@@ -1,7 +1,50 @@
+{% macro task_panel(task) -%}
+    <div class="panel panel-default panel-task c_{{ task.color}}">
+        <div class="dropdown card_options">
+            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <i class="fa fa-bars"></i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+            <li><a class="action_edit_task" data-id="{{ task.id }}"><i class="fa fa-edit"></i> Edit</a></li>
+            <li><a href="#"><i class="fa fa-share-alt"></i> Share</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#"><i class="fa fa-archive"></i> Archive </a></li>
+            <li><a href="#"><i class="fa fa-trash"></i> Delete </a></li>
+            <li class="action_move">
+                {% if task.state != 'new' %}
+                    <span class="dropdown-move task-new" data-href="/move_task/{{task.id}}/new"><i class="fa fa-certificate"></i> </span>
+                {% endif %}
+                {% if task.state != 'progress' %}
+                    <span class="dropdown-move task-progress" data-href="/move_task/{{task.id}}/progress"><i class="fa fa-hourglass-half"></i> </span>
+                {% endif %}
+                {% if task.state != 'test' %}
+                    <span class="dropdown-move task-test" data-href="/move_task/{{task.id}}/test"><i class="fa fa-binoculars"></i> </span>
+                {% endif %}
+                {% if task.state != 'done' %}
+                <span class="dropdown-move task-done" data-href="/move_task/{{task.id}}/done"><i class="fa fa-check"></i> </span>
+                {% endif %}
+                {% if task.state != 'cancel' %}
+                <span class="dropdown-move task-cancel" data-href="/move_task/{{task.id}}/cancel"><i class="fa fa-times"></i> </span> 
+                {% endif %}
+            </li>
+            </ul>
+        </div>
+        <div class="panel-body">
+            <div class="task_title">{{ task.name }} </div>
+            {% if task.date %}
+                <span class="text-muted" title="Start Date"><i> created </i> <b class='moment_format_ago' data-date="{{ task.date }}"> {{ task.date }} </b></span>
+            {% endif %}
+            {% if task.user_id.id %}
+                <span class="text-muted" title="Assign To"><i>assign to </i> <b>{{ task.user_id._get().name }} </b></span>
+            {% endif %}
+        </div>
+    </div>
+{%- endmacro %}
+
 {% extends "backend/layout.html" %}
 {% import 'backend/macros.html' as macros %}
 {% block main %}
-<div class="container-fluid fluid-25">
+<div class="container-fluid fluid-25 project_id" data-project-id={{ project.id }}>
 <nav class="navbar navbar-default mt16">
   <div class="container-fluid ">
     <!-- Brand and toggle get grouped for better mobile display -->
@@ -12,18 +55,26 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="/home"><span class="text-primary"> <i class="fa fa-puzzle-piece"></i> Tasks </span></a>
+      <a class="navbar-brand" href="/home">
+            <span class="text-primary"> <i class="fa fa-puzzle-piece"></i>
+                {% if project %}
+                    Tasks for <span class="f_thin">{{project.name}}</span>
+                {% else %}
+                    My Tasks
+                {% endif %}
+            </span>
+        </a>
     </div>
 
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
         <form class="navbar-form navbar-right nav-search-custom" role="search">
           <div class="form-group">
-            <input type="text" class="form-control" placeholder="Search">
+            <input type="text" name="search" class="form-control" placeholder="Search" value="{{search}}">
           </div><button type="submit" class="btn btn-primary btn_custom hidden-xs no_shadow"><i class="fa fa-search"> </i></button>
           <button type="submit" class="btn btn-primary btn-block hidden-lg hidden-md  hidden-sm"><i class="fa fa-search"> </i></button>
         </form>
       <ul class="nav navbar-nav navbar-right">
-        <li><a class="action_new_task"><i class="fa fa-plus"></i> Create New Task</a></li>
+        <li><a class="action_new_task" data-state="new"><i class="fa fa-plus"></i> Create New Task</a></li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-filter"></i> Filters <span class="caret"></span></a>
           <ul class="dropdown-menu">
@@ -42,208 +93,28 @@
 <div class="container-fluid" style="margin-bottom: 18px">
     <div class="row">
         <div class="col-md-3 bg-primary-1 same_height" style="min-height:calc(100vh - 170px);">
-            <div class="col_title new"> <i class="fa fa-certificate"> </i> New <i class="fa fa-plus"> </i></div>
-
-            <div class="panel panel-default panel-project c_3">
-                        <div class="dropdown card_options">
-                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                <i class="fa fa-bars"></i>
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
-                            <li><a class="action_edit_project" data-id="1"><i class="fa fa-edit"></i> Edit</a></li>
-                            <li><a href="#"><i class="fa fa-puzzle-piece"></i> View tasks</a></li>
-                            <li><a href="#"><i class="fa fa-share-alt"></i> Share</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="#"><i class="fa fa-archive"></i> Archive </a></li>
-                            <li><a href="#"><i class="fa fa-trash"></i> Delete </a></li>
-                            </ul>
-                        </div>
-                        <div class="panel-body">
-                            <div class="project_title">About Us Page </div>
-                            
-                                <span class="text-muted" title="Start Date"><i> Deadline in </i> <b class="" data-date="2016-04-09 00:00:00">13 days</b></span>
-                            
-                            
-                                <span class="text-muted" title="Created By"><i>Assign to </i> <b>Kishan Gajjar </b></span>
-                            
-                        </div>
-                    </div>
-
-                    <div class="panel panel-default panel-project c_7">
-                                <div class="dropdown card_options">
-                                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                        <i class="fa fa-bars"></i>
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
-                                    <li><a class="action_edit_project" data-id="1"><i class="fa fa-edit"></i> Edit</a></li>
-                                    <li><a href="#"><i class="fa fa-puzzle-piece"></i> View tasks</a></li>
-                                    <li><a href="#"><i class="fa fa-share-alt"></i> Share</a></li>
-                                    <li role="separator" class="divider"></li>
-                                    <li><a href="#"><i class="fa fa-archive"></i> Archive </a></li>
-                                    <li><a href="#"><i class="fa fa-trash"></i> Delete </a></li>
-                                    </ul>
-                                </div>
-                                <div class="panel-body">
-                                    <div class="project_title">Contact Us Page</div>
-                                    
-                                        <span class="text-muted" title="Start Date"><i> Deadline in </i> <b class="" data-date="2016-04-09 00:00:00">11 days</b></span>
-                                        <span class="text-muted" title="Created By"><i>Assign to </i> <b>Kishan Gajjar </b></span>
-                                    
-                                </div>
-                            </div>
-                            <div class="panel panel-default panel-project c_1">
-                                        <div class="dropdown card_options">
-                                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                                <i class="fa fa-bars"></i>
-                                            </button>
-                                            <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
-                                            <li><a class="action_edit_project" data-id="1"><i class="fa fa-edit"></i> Edit</a></li>
-                                            <li><a href="#"><i class="fa fa-puzzle-piece"></i> View tasks</a></li>
-                                            <li><a href="#"><i class="fa fa-share-alt"></i> Share</a></li>
-                                            <li role="separator" class="divider"></li>
-                                            <li><a href="#"><i class="fa fa-archive"></i> Archive </a></li>
-                                            <li><a href="#"><i class="fa fa-trash"></i> Delete </a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="panel-body">
-                                            <div class="project_title">Create Logo </div>
-                                            
-                                                <span class="text-muted" title="Start Date"><i> Deadline in </i> <b class="" data-date="2016-04-09 00:00:00">4 days</b></span>
-                                                <span class="text-muted" title="Created By"><i>Assign to </i> <b>Kishan Gajjar </b></span>
-                                            
-                                        </div>
-                                    </div>
-                                    <div class="panel panel-default panel-project c_4">
-                                                <div class="dropdown card_options">
-                                                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                                        <i class="fa fa-bars"></i>
-                                                    </button>
-                                                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
-                                                    <li><a class="action_edit_project" data-id="1"><i class="fa fa-edit"></i> Edit</a></li>
-                                                    <li><a href="#"><i class="fa fa-puzzle-piece"></i> View tasks</a></li>
-                                                    <li><a href="#"><i class="fa fa-share-alt"></i> Share</a></li>
-                                                    <li role="separator" class="divider"></li>
-                                                    <li><a href="#"><i class="fa fa-archive"></i> Archive </a></li>
-                                                    <li><a href="#"><i class="fa fa-trash"></i> Delete </a></li>
-                                                    </ul>
-                                                </div>
-                                                <div class="panel-body">
-                                                    <div class="project_title">Main Page </div>
-                                                    
-                                                        <span class="text-muted" title="Start Date"><i> Deadline in </i> <b class="" data-date="2016-04-09 00:00:00">11 days</b></span>
-                                                        <span class="text-muted" title="Created By"><i>Assign to </i> <b>Kishan Gajjar </b></span>
-                                                    
-                                                </div>
-                                            </div>
+            <div class="col_title new"> <i class="fa fa-certificate"> </i> New <i class="fa fa-plus action_new_task" data-state="new"> </i></div>
+            {% for task in tasks['new'] %}
+                {{ task_panel(task) }}
+            {% endfor %}
         </div>
         <div class="col-md-3 bg-primary-2 same_height" style="min-height:calc(100vh - 170px);">
-            <div class="col_title in_progress"> <i class="fa fa-hourglass-half"> </i> In Progress <i class="fa fa-plus"> </i></div>
-
-            <div class="panel panel-default panel-project c_2">
-                        <div class="dropdown card_options">
-                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                <i class="fa fa-bars"></i>
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
-                            <li><a class="action_edit_project" data-id="1"><i class="fa fa-edit"></i> Edit</a></li>
-                            <li><a href="#"><i class="fa fa-puzzle-piece"></i> View tasks</a></li>
-                            <li><a href="#"><i class="fa fa-share-alt"></i> Share</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="#"><i class="fa fa-archive"></i> Archive </a></li>
-                            <li><a href="#"><i class="fa fa-trash"></i> Delete </a></li>
-                            </ul>
-                        </div>
-                        <div class="panel-body">
-                            <div class="project_title">Website Menu </div>
-                            
-                                <span class="text-muted" title="Start Date"><i> Deadline in </i> <b class="" data-date="2016-04-09 00:00:00">3 days</b></span>
-                            
-                            
-                                <span class="text-muted" title="Created By"><i>Assign to </i> <b>Parth Gajjar </b></span>
-                            
-                        </div>
-                    </div>
-
-                    <div class="panel panel-default panel-project c_4">
-                                <div class="dropdown card_options">
-                                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                        <i class="fa fa-bars"></i>
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
-                                    <li><a class="action_edit_project" data-id="1"><i class="fa fa-edit"></i> Edit</a></li>
-                                    <li><a href="#"><i class="fa fa-puzzle-piece"></i> View tasks</a></li>
-                                    <li><a href="#"><i class="fa fa-share-alt"></i> Share</a></li>
-                                    <li role="separator" class="divider"></li>
-                                    <li><a href="#"><i class="fa fa-archive"></i> Archive </a></li>
-                                    <li><a href="#"><i class="fa fa-trash"></i> Delete </a></li>
-                                    </ul>
-                                </div>
-                                <div class="panel-body">
-                                    <div class="project_title">Website Footer </div>
-                                    
-                                        <span class="text-muted" title="Start Date"><i> Deadline in </i> <b class="" data-date="2016-04-09 00:00:00">9 days</b></span>
-                                        <span class="text-muted" title="Created By"><i>Assign to </i> <b>Kishan Gajjar </b></span>
-                                    
-                                </div>
-                            </div>
+            <div class="col_title in_progress"> <i class="fa fa-hourglass-half"> </i> In Progress <i class="fa fa-plus action_new_task" data-state="progress"> </i></div>
+            {% for task in tasks['progress'] %}
+                {{ task_panel(task) }}
+            {% endfor %}
         </div>
         <div class="col-md-3 bg-primary-1 same_height" style="min-height:calc(100vh - 170px);">
-            <div class="col_title testing"><i class="fa fa-binoculars"> </i> Testing <i class="fa fa-plus"> </i></div>
-
-            <div class="panel panel-default panel-project c_6">
-                        <div class="dropdown card_options">
-                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                <i class="fa fa-bars"></i>
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
-                            <li><a class="action_edit_project" data-id="1"><i class="fa fa-edit"></i> Edit</a></li>
-                            <li><a href="#"><i class="fa fa-puzzle-piece"></i> View tasks</a></li>
-                            <li><a href="#"><i class="fa fa-share-alt"></i> Share</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="#"><i class="fa fa-archive"></i> Archive </a></li>
-                            <li><a href="#"><i class="fa fa-trash"></i> Delete </a></li>
-                            </ul>
-                        </div>
-                        <div class="panel-body">
-                            <div class="project_title">Theme Responsiveness </div>
-                            
-                                <span class="text-muted" title="Start Date"><i> Deadline in </i> <b class="" data-date="2016-04-09 00:00:00">3 days</b></span>
-                            
-                            
-                                <span class="text-muted" title="Created By"><i>Assign to </i> <b>Parth Gajjar </b></span>
-                            
-                        </div>
-                    </div>
-
-
+            <div class="col_title testing"><i class="fa fa-binoculars"> </i> Testing <i class="fa fa-plus action_new_task" data-state="test"> </i></div>
+            {% for task in tasks['test'] %}
+                {{ task_panel(task) }}
+            {% endfor %}
         </div>
         <div class="col-md-3 bg-primary-2 same_height" style="min-height:calc(100vh - 170px);">
-            <div class="col_title done"> <i class="fa fa-check"> </i> Done <i class="fa fa-plus"> </i> </div>
-
-            <div class="panel panel-default panel-project c_5">
-                        <div class="dropdown card_options">
-                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                <i class="fa fa-bars"></i>
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
-                            <li><a class="action_edit_project" data-id="1"><i class="fa fa-edit"></i> Edit</a></li>
-                            <li><a href="#"><i class="fa fa-puzzle-piece"></i> View tasks</a></li>
-                            <li><a href="#"><i class="fa fa-share-alt"></i> Share</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="#"><i class="fa fa-archive"></i> Archive </a></li>
-                            <li><a href="#"><i class="fa fa-trash"></i> Delete </a></li>
-                            </ul>
-                        </div>
-                        <div class="panel-body">
-                            <div class="project_title">Theme Selection </div>
-                            
-                                <span class="text-muted" title="Start Date"><i> Deadline in </i> <b class="" data-date="2016-04-09 00:00:00">1 days</b></span>
-                            
-                            
-                                <span class="text-muted" title="Created By"><i>Assign to </i> <b>Parth Gajjar </b></span>
-                            
-                        </div>
-                    </div>
+            <div class="col_title done"> <i class="fa fa-check"> </i> Done <i class="fa fa-plus action_new_task" data-state="done"> </i> </div>
+            {% for task in tasks['done'] %}
+                {{ task_panel(task) }}
+            {% endfor %}
         </div>
     </div>
 </div>

@@ -1,7 +1,7 @@
 import json
 
 from modules.flask_app import web
-from flask import render_template, url_for
+from flask import render_template, url_for, request
 from flask.ext.login import login_required, current_user
 
 from forms import ProjectForm
@@ -37,14 +37,18 @@ def create_project(record_id=False):
         form.name.data = project_data['name']
         form.description.data = project_data['description']
         form.color.data = project_data['color']
-        form.date.data = project_data['date'].strftime('%d/%m/%Y %I:%M %p')
+        form.date.data = project_data['date'].strftime('%m/%d/%Y %I:%M %p')
 
-    return render_template('backend/project_model.html', form=form, record_id = record_id and str(record_id))
+    return render_template('backend/project_model.html', form=form, record_id=record_id and str(record_id))
 
 
 # secure methods
 @web.route('/home')
 @login_required
 def home():
-    projects = table_registry.projects.search_read([])
-    return render_template('backend/home.html', main_class='project_home', projects=projects, current_user=current_user)
+    domain = []
+    search = request.args.get('search', '', type=str)
+    if search:
+        domain.append(['name', 'ilike', "%%"+search+"%%"])
+    projects = table_registry.projects.search_read(domain)
+    return render_template('backend/home.html', main_class='project_home', projects=projects, current_user=current_user, search=search)

@@ -342,10 +342,10 @@
             }
             
         }
-        .panel-project{
+        .panel-task{
             border-radius: 0px;
             margin: 10px;
-            .project_title{
+            .task_title{
                 font-size: 20px;
                 font-weight: 300;
             }
@@ -358,6 +358,54 @@
                 .btn{
                     box-shadow: none;
                     -webkit-box-shadow: none;
+                }
+            }
+            .dropdown-menu-right{
+                padding-bottom: 0px;
+            }
+            .action_move{
+                margin-top: 10px;
+            }
+            .dropdown-move{
+                padding: 8px 15px;
+                display: table-cell;
+                cursor: pointer;
+                -webkit-transition: background 0.5s;
+                transition: background 0.5s;
+                &.task-new{
+                    background: @c_5;
+                    color: #fff;
+                    &:hover{
+                        background:  darken(@c_5, 12%);
+                    }
+                }
+                &.task-progress{
+                    background: @c_4;
+                    color: #fff;
+                    &:hover{
+                        background:  darken(@c_4, 12%);
+                    }
+                }
+                &.task-test{
+                    background: @c_3;
+                    color: #fff;
+                    &:hover{
+                        background:  darken(@c_3, 12%);
+                    }
+                }
+                &.task-done{
+                    background: @c_2;
+                    color: #fff;
+                    &:hover{
+                        background:  darken(@c_2, 12%);
+                    }
+                }
+                &.task-cancel{
+                    background: @c_1;
+                    color: #fff;
+                    &:hover{
+                        background:  darken(@c_1, 12%);
+                    }
                 }
             }
             .picker_border(c_1);
@@ -574,6 +622,7 @@ body{
                 .fa-plus{
                     float: right;
                     background: darken(@c_5, 12%);
+                    cursor: pointer;
                 }
             }
             &.in_progress{
@@ -581,6 +630,7 @@ body{
                 .fa-plus{
                     float: right;
                     background: darken(@c_4, 12%);
+                    cursor: pointer;
                 }
             }
             &.testing{
@@ -588,6 +638,7 @@ body{
                 .fa-plus{
                     float: right;
                     background: darken(@c_3, 12%);
+                    cursor: pointer;
                 }
             }
             &.done{
@@ -595,6 +646,7 @@ body{
                 .fa-plus{
                     float: right;
                     background: darken(@c_2, 12%);
+                    cursor: pointer;
                 }
             }
         }
