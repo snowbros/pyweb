@@ -1,0 +1,28 @@
+{% import 'backend/macros.html' as macros %}
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><span class="model_title_icon"><i class="fa fa-user"></i> </span> Edit Profile</h4>
+            </div>
+                    <form class="edit_profile_form flotting_form_backend" method="POST" action="/edit_profile{{ record_id and '/' + record_id or ''}}">
+                    {{ form.hidden_tag() }}
+                    <div class="modal-body">
+                            <div class="form-group">
+                                <label class="control-label label-lg text-primary" for="LoginUserName">Name</label>
+                                {{ form.name(size=40, **{'class': 'form-control input-lg', 'required':'true'}) }}
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label label-lg text-primary" for="LoginUserName">Email</label>
+                                {{ form.email(size=40, **{'class': 'form-control input-lg', 'required':'true'}) }}
+                            </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary pull-left">{{ record_id and 'Save changes' or 'SAVE' }}</button>
+                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+        </div>
+    </div>
+</div>
