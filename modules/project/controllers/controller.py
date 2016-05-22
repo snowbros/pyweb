@@ -38,7 +38,6 @@ def create_project(record_id=False):
         form.description.data = project_data['description']
         form.color.data = project_data['color']
         form.date.data = project_data['date'].strftime('%m/%d/%Y %I:%M %p')
-
     return render_template('backend/project_model.html', form=form, record_id=record_id and str(record_id))
 
 

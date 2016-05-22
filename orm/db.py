@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 def _get_connection():
     global connection
     if not connection or connection.closed:
-        connection = psycopg2.connect("dbname='%s' user='pga'" % (config_options.db_name))
+        connection = psycopg2.connect("dbname='%s' user='%s'" % (config_options.db_name, config_options.db_user))
     return connection
 
 

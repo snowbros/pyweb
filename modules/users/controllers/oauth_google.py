@@ -7,8 +7,8 @@ from user_auth import UsersAuthenticator
 
 oauth = OAuth()
 
-GOOGLE_CLIENT_ID = 'Yout client id'
-GOOGLE_CLIENT_SECRET = 'your secret id'
+GOOGLE_CLIENT_ID = '476331204138-pq9l2rbn2q9ju6ijvv2rhje4l1lu48i9.apps.googleusercontent.com'
+GOOGLE_CLIENT_SECRET = 'fxchCvg5Yykqq47FvUWMn3Pa'
 REDIRECT_URI = '/authorized'  # one of the Redirect URIs from Google APIs console
 
 google = oauth.remote_app('google',

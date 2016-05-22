@@ -22,6 +22,13 @@ def get_configs():
     db_options.add_argument('--updata-schema',
                             action='store_true', default=False, dest='update_schama',
                             help="Update Database Schema (Re-compute-orm)")
+
+    # User name
+    user_name = config_parser.add_argument_group('Database')
+    user_name.add_argument('--db-username',
+                            action='store', dest='db_user',
+                            help='User Name')
+
     args = config_parser.parse_args()
     return args
 

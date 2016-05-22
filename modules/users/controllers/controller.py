@@ -1,10 +1,12 @@
+import json
+
 from modules.flask_app import web
 from flask import render_template, redirect, url_for
-from flask.ext.login import LoginManager, login_required, login_user
+from flask.ext.login import LoginManager, login_required, login_user, logout_user, current_user
 from werkzeug.security import generate_password_hash
 
 from user_auth import UsersAuthenticator
-from forms import LoginForm, SignUpForm
+from forms import LoginForm, SignUpForm, ChangepasswordForm, Edit_profile
 from orm.orm import TableRegistry
 
 
@@ -41,6 +43,19 @@ def login():
     return render_template('login/login.html', main_class="login_back", form=form)
 
 
+@web.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('logout_redirect'))
+
+
+@web.route("/logout_redirect")
+def logout_redirect():
+    print "loggag"
+    return redirect(url_for('index'))
+
+
 @web.route('/sign_up', methods=('GET', 'POST'))
 def sign_up():
     sign_up_form = SignUpForm()
@@ -59,6 +74,33 @@ def sign_up():
     return render_template('login/sign_up.html', main_class="login_back", form=sign_up_form)
 
 
+@web.route('/change_password', methods=('GET', 'POST'))
+def change_password():
+    change_pass_form = ChangepasswordForm()
+    if change_pass_form.validate_on_submit():
+        current_id = current_user.data.get('id')
+        user_data = {
+            'password_hash': generate_password_hash(change_pass_form.password.data)
+        }
+        table_registry.users.write([current_id], user_data)
+        return json.dumps({'redirect': url_for('home')})
+    return render_template('backend/change_password.html', form=change_pass_form)
+
+
+@web.route('/edit_profile', methods=('GET', 'POST'))
+def edit_profile():
+    edit_profile_form = Edit_profile()
+    if edit_profile_form.validate_on_submit():
+        current_id = current_user.data.get('id')
+        user_data = {
+            'name': edit_profile_form.name.data,
+            'email': edit_profile_form.email.data
+        }
+        table_registry.users.write([current_id], user_data)
+        return json.dumps({'redirect': url_for('home')})
+    return render_template('backend/edit_profile.html', form=edit_profile_form)
+
+
 @login_manager.user_loader
 def load_user(user_id):
     user = UsersAuthenticator.get_user_obj(user_id)
@@ -75,5 +117,3 @@ def index():
 @web.errorhandler(401)
 def no_auth(e):
     return redirect(url_for('login'))
-
-

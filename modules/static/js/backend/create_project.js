@@ -28,7 +28,7 @@ $(document).ready(function(){
              }
          });
     });
-    
+
 
     $('.action_new_task').on('click', function(e){
        var project_id = $(".project_id").data('project-id');
@@ -54,6 +54,33 @@ $(document).ready(function(){
         });
     });
 
+    $('.change_password').on('click', function(){
+       $.ajax('/change_password', {
+            type: 'GET',
+            data: [],
+            contentType: 'application/json',
+            success: function(data, textStatus, jqXHR){
+                init_model(data, {});
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+               console.log(errorThrown);
+            }
+        });
+    });
+
+    $('.edit_profile').on('click', function(){
+       $.ajax('/edit_profile', {
+             type: 'GET',
+             data: [],
+             contentType: 'application/json',
+             success: function(data, textStatus, jqXHR){
+                 init_model(data, {});
+             },
+             error: function(jqXHR, textStatus, errorThrown){
+                console.log(errorThrown);
+             }
+         });
+    });
     $('.action_edit_task').on('click', function(){
         var project_id = $(".project_id").data('project-id');
         var ajax_data = {}
@@ -106,12 +133,15 @@ $(document).ready(function(){
         $(form).ajaxForm({
             beforeSubmit: function(formData, jqForm, options){
                 var color = _.findWhere(formData, {'name': 'color'});
-                if(color.value){
-                    return true;
-                }else{
-                    $(form).find(".color-picker .color-require").removeClass('hidden');
-                    return false;
+                if(color ){
+                    if(color.value){
+                        return true;
+                    }else{
+                        $(form).find(".color-picker .color-require").removeClass('hidden');
+                        return false;
+                    }
                 }
+                return true;
             },
             success:function(responseText, statusText, xhr, $form){
                 try {
