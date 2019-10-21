@@ -26,7 +26,7 @@ Flask-WTF==0.12
 Jinja2==2.7.2
 MarkupSafe==0.18
 WTForms==2.1
-Werkzeug==0.9.4
+Werkzeug==0.15.3
 argparse==1.2.1
 html5lib==0.999
 httplib2==0.8
