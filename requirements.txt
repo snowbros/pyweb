@@ -30,7 +30,7 @@ Werkzeug==0.9.4
 argparse==1.2.1
 html5lib==0.999
 httplib2==0.8
-lxml==3.3.3
+lxml==4.6.2
 oauth2==1.9.0.post1
 oauthlib==1.0.3
 oneconf==0.3.7.14.04.1
