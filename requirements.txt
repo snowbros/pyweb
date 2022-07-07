@@ -35,7 +35,7 @@ oauth2==1.9.0.post1
 oauthlib==1.0.3
 oneconf==0.3.7.14.04.1
 psycopg2==2.4.5
-requests==2.2.1
+requests==2.20.0
 requests-oauthlib==0.6.1
 sessioninstaller==0.0.0
 six==1.5.2
